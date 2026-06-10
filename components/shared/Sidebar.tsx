@@ -85,8 +85,7 @@ export default function Sidebar({
   const body = (isMobileDrawer = false) => (
     <aside
       className={[
-        "flex h-full flex-col transition-all duration-300",
-        // Desktop width depends on collapsed state; drawer is always full-width
+        "group flex h-full flex-col transition-all duration-300",
         isMobileDrawer ? "w-64" : collapsed ? "w-[68px]" : "w-64",
       ].join(" ")}
       style={{
@@ -103,16 +102,18 @@ export default function Sidebar({
         }}
       >
         {collapsed && !isMobileDrawer ? (
-          <div className="flex flex-col items-center gap-1">
-            <Image src="/logo.svg" alt="Simplimed" width={32} height={32} className="rounded-xl" />
-            <button
-              onClick={onToggleCollapse}
-              className="flex h-5 w-5 items-center justify-center rounded transition-colors duration-150"
-              style={{ color: "var(--color-text-muted)" }}
-              aria-label="Expand sidebar"
-            >
-              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+          <div className="relative flex items-center justify-center">
+            {/* Logo — visible by default, hidden on sidebar hover */}
+            <Image src="/logo.svg" alt="Simplimed" width={32} height={32}
+              className="rounded-xl transition-opacity duration-200 group-hover:opacity-0" />
+            {/* Expand button — hidden by default, visible on sidebar hover */}
+            <button onClick={onToggleCollapse}
+              className="absolute inset-0 flex items-center justify-center rounded-xl opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+              style={{ color: "var(--color-brand)" }} aria-label="Expand sidebar">
+              <svg width="22" height="22" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M2 3h4v10H2V3Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+                <path d="M6 3h8v10H6" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+                <path d="M10 7l2 1-2 1" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
           </div>
@@ -135,15 +136,17 @@ export default function Sidebar({
                 aria-label="Collapse sidebar"
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLElement).style.backgroundColor = "var(--color-bg-overlay)";
-                  (e.currentTarget as HTMLElement).style.color = "var(--color-text-secondary)";
+                  (e.currentTarget as HTMLElement).style.color = "var(--color-brand)";
                 }}
                 onMouseLeave={(e) => {
                   (e.currentTarget as HTMLElement).style.backgroundColor = "";
                   (e.currentTarget as HTMLElement).style.color = "var(--color-text-muted)";
                 }}
               >
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <path d="M10 4L6 8l4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M2 3h4v10H2V3Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+                  <path d="M6 3h8v10H6" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+                  <path d="M10 7L8 8l2 1" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
             )}
@@ -271,22 +274,22 @@ export default function Sidebar({
         {body(false)}
       </div>
 
-      {/* ── Mobile drawer ── */}
-      {mobileOpen && (
-        <>
-          {/* Backdrop */}
-          <div
-            className="fixed inset-0 z-40 md:hidden"
-            style={{ backgroundColor: "rgba(15,23,42,0.4)", backdropFilter: "blur(2px)" }}
-            onClick={onMobileClose}
-            aria-hidden="true"
-          />
-          {/* Drawer */}
-          <div className="fixed inset-y-0 left-0 z-50 h-full md:hidden">
-            {body(true)}
-          </div>
-        </>
-      )}
+      {/* ── Mobile drawer — always in DOM for slide animation ── */}
+      <div
+        className={`fixed inset-0 z-40 md:hidden transition-opacity duration-300 ${
+          mobileOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
+        }`}
+        style={{ backgroundColor: "rgba(15,23,42,0.4)", backdropFilter: "blur(2px)" }}
+        onClick={onMobileClose}
+        aria-hidden={!mobileOpen}
+      />
+      <div
+        className={`fixed inset-y-0 left-0 z-50 h-full md:hidden transition-transform duration-300 ease-out ${
+          mobileOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        {body(true)}
+      </div>
     </>
   );
 }

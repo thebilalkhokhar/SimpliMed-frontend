@@ -48,22 +48,31 @@ function LoadingState() {
 ───────────────────────────────────────────────────────────────────────────── */
 function HeaderRow() {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3">
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-widest text-slate-400">
-          Health Report
-        </p>
-        <h1 className="mt-0.5 text-xl font-bold tracking-tight text-slate-900">
-          Hi, John — here is your health report summary
-        </h1>
+    <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
+      <div className="flex items-center gap-4">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
+          style={{ backgroundColor: "var(--color-brand-light)" }}>
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+            <rect x="3" y="3" width="16" height="16" rx="3" stroke="var(--color-brand)" strokeWidth="1.75" />
+            <path d="M7 11h8M11 7v8" stroke="var(--color-brand)" strokeWidth="1.75" strokeLinecap="round" />
+          </svg>
+        </div>
+        <div>
+          <p className="text-sm font-semibold uppercase tracking-wider text-slate-400">
+            Health Report
+          </p>
+          <h1 className="text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
+            Hi, John — here is your health report summary
+          </h1>
+        </div>
       </div>
       <button
-        className="inline-flex shrink-0 items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-colors duration-150"
+        className="inline-flex shrink-0 items-center gap-2.5 rounded-xl px-5 py-3 text-sm font-semibold text-white shadow-sm transition-colors duration-150"
         style={{ backgroundColor: "var(--color-brand)" }}
         onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--color-brand-hover)")}
         onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--color-brand)")}
       >
-        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
           <path d="M8 3v8M5 8l3 3 3-3" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
           <path d="M3 13h10" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
         </svg>
@@ -78,33 +87,34 @@ function HeaderRow() {
 ───────────────────────────────────────────────────────────────────────────── */
 function AlertBanner() {
   return (
-    <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5">
-      <div className="flex flex-wrap items-start gap-4">
+    <div className="rounded-2xl border-2 border-amber-200 bg-amber-50 p-6">
+      <div className="flex flex-wrap items-start gap-5">
         {/* Icon */}
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-100">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M10 2L2 16h16L10 2Z" stroke="#D97706" strokeWidth="1.6" strokeLinejoin="round" />
-            <path d="M10 8v4" stroke="#D97706" strokeWidth="1.6" strokeLinecap="round" />
-            <circle cx="10" cy="14" r="0.8" fill="#D97706" />
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-100">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 2L2 20h20L12 2Z" stroke="#D97706" strokeWidth="1.8" strokeLinejoin="round" />
+            <path d="M12 9v5" stroke="#D97706" strokeWidth="1.8" strokeLinecap="round" />
+            <circle cx="12" cy="17" r="1" fill="#D97706" />
           </svg>
         </div>
 
         {/* Copy */}
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-bold text-amber-800">Prediabetes Detected</p>
-          <p className="mt-0.5 text-xs leading-relaxed text-amber-700">
+          <p className="text-base font-bold text-amber-800">⚠️ Prediabetes Detected</p>
+          <p className="mt-1 text-sm leading-relaxed text-amber-700">
             Your HbA1c of <strong>6.1%</strong> and fasting glucose of <strong>110 mg/dL</strong> fall
-            within the prediabetes range. Early lifestyle adjustments can reverse this condition.
+            within the prediabetes range. Early lifestyle adjustments can reverse this condition
+            and prevent progression to Type 2 Diabetes.
           </p>
         </div>
 
         {/* Risk progress meter */}
-        <div className="w-full sm:w-48 shrink-0">
-          <div className="flex justify-between mb-1">
-            <span className="text-[10px] font-semibold text-amber-700">Risk Level</span>
-            <span className="text-[10px] font-bold text-amber-800">Moderate — 64%</span>
+        <div className="w-full sm:w-56 shrink-0">
+          <div className="flex justify-between mb-1.5">
+            <span className="text-xs font-semibold text-amber-700">Risk Level</span>
+            <span className="text-xs font-bold text-amber-800">Moderate — 64%</span>
           </div>
-          <div className="h-2.5 w-full overflow-hidden rounded-full bg-amber-100">
+          <div className="h-3 w-full overflow-hidden rounded-full bg-amber-100">
             <div
               className="h-full rounded-full transition-all duration-700"
               style={{
@@ -113,7 +123,7 @@ function AlertBanner() {
               }}
             />
           </div>
-          <div className="mt-1 flex justify-between text-[9px] text-amber-600">
+          <div className="mt-1.5 flex justify-between text-[10px] font-medium text-amber-600">
             <span>Low</span>
             <span>Moderate</span>
             <span>High</span>
@@ -484,12 +494,12 @@ function HbA1cGauge() {
    ⑥ RECOMMENDED ACTIONS
 ───────────────────────────────────────────────────────────────────────────── */
 const ACTIONS = [
-  "Reduce sugary drinks and refined carbohydrates",
-  "Aim for 30 minutes of moderate exercise, 5 days a week",
-  "Increase dietary fibre — whole grains, legumes, vegetables",
-  "Monitor fasting blood sugar weekly at home",
-  "Schedule a follow-up HbA1c test in 3 months",
-  "Consider a referral to a registered dietitian",
+  { text: "Reduce sugary drinks and refined carbohydrates",            icon: "🥤" },
+  { text: "Aim for 30 minutes of moderate exercise, 5 days a week",    icon: "🏃" },
+  { text: "Increase dietary fibre — whole grains, legumes, vegetables", icon: "🥦" },
+  { text: "Monitor fasting blood sugar weekly at home",                icon: "🩸" },
+  { text: "Schedule a follow-up HbA1c test in 3 months",              icon: "📅" },
+  { text: "Consider a referral to a registered dietitian",             icon: "👩‍⚕️" },
 ];
 
 function RecommendedActions() {
@@ -503,41 +513,78 @@ function RecommendedActions() {
     });
   }
 
+  const doneCount = checked.size;
+
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-4 flex items-center gap-2">
-        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-100">
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M3 8l4 4 6-7" stroke="#059669" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      {/* Header */}
+      <div className="mb-5 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M4 10l5 5 8-9" stroke="#059669" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+          <div>
+            <p className="text-base font-bold text-slate-900">Recommended Actions</p>
+            <p className="text-xs text-slate-400">{doneCount} of {ACTIONS.length} completed</p>
+          </div>
         </div>
-        <p className="text-sm font-bold text-slate-900">Recommended Actions</p>
+        {/* Progress ring */}
+        <div className="relative flex h-10 w-10 items-center justify-center">
+          <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true">
+            <circle cx="20" cy="20" r="16" fill="none" stroke="#E2E8F0" strokeWidth="4" />
+            <circle cx="20" cy="20" r="16" fill="none" stroke="#059669" strokeWidth="4"
+              strokeLinecap="round" strokeDasharray={`${2 * Math.PI * 16}`}
+              strokeDashoffset={`${2 * Math.PI * 16 * (1 - doneCount / ACTIONS.length)}`}
+              transform="rotate(-90 20 20)" className="transition-all duration-500" />
+          </svg>
+          <span className="absolute text-[9px] font-bold text-emerald-600">
+            {Math.round((doneCount / ACTIONS.length) * 100)}%
+          </span>
+        </div>
       </div>
 
-      <ul className="flex flex-col gap-2.5">
-        {ACTIONS.map((action, i) => {
+      {/* Progress bar */}
+      <div className="mb-5 h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
+        <div className="h-full rounded-full bg-emerald-500 transition-all duration-500"
+          style={{ width: `${(doneCount / ACTIONS.length) * 100}%` }} />
+      </div>
+
+      {/* Action items */}
+      <ul className="flex flex-col gap-2">
+        {ACTIONS.map(({ text, icon }, i) => {
           const done = checked.has(i);
           return (
             <li key={i}
-              className="flex cursor-pointer items-start gap-3 rounded-xl p-2.5 transition-colors duration-150 hover:bg-slate-50"
+              className={`flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 transition-all duration-200 ${
+                done
+                  ? "border-emerald-200 bg-emerald-50"
+                  : "border-slate-100 bg-slate-50 hover:border-emerald-200 hover:bg-emerald-50/50"
+              }`}
               onClick={() => toggle(i)}
             >
               {/* Checkbox */}
               <span
-                className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border-2 transition-colors duration-150 ${
+                className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border-2 transition-all duration-200 ${
                   done
-                    ? "border-emerald-500 bg-emerald-500"
+                    ? "border-emerald-500 bg-emerald-500 shadow-sm"
                     : "border-slate-300 bg-white"
                 }`}
               >
                 {done && (
-                  <svg width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                    <path d="M2 6l3 3 5-5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                    <path d="M2 6l3 3 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 )}
               </span>
-              <span className={`text-xs leading-relaxed ${done ? "text-slate-400 line-through" : "text-slate-700"}`}>
-                {action}
+
+              {/* Icon */}
+              <span className="text-lg">{icon}</span>
+
+              {/* Text */}
+              <span className={`flex-1 text-sm leading-snug ${done ? "text-slate-400 line-through" : "text-slate-700 font-medium"}`}>
+                {text}
               </span>
             </li>
           );
@@ -551,40 +598,71 @@ function RecommendedActions() {
    ⑦ QUESTIONS TO ASK YOUR DOCTOR
 ───────────────────────────────────────────────────────────────────────────── */
 const DOCTOR_QUESTIONS = [
-  "Am I currently considered prediabetic based on these results?",
-  "Should I make any immediate dietary changes?",
-  "Do I need medication at this stage, or can lifestyle changes help?",
-  "How often should I monitor my blood sugar at home?",
-  "What is my target HbA1c in 3 months with lifestyle changes?",
+  { q: "Am I currently considered prediabetic based on these results?",     tag: "Diagnosis"  },
+  { q: "Should I make any immediate dietary changes?",                      tag: "Diet"       },
+  { q: "Do I need medication at this stage, or can lifestyle changes help?", tag: "Treatment"  },
+  { q: "How often should I monitor my blood sugar at home?",                tag: "Monitoring" },
+  { q: "What is my target HbA1c in 3 months with lifestyle changes?",      tag: "Goals"      },
 ];
 
 function DoctorQuestions() {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-4 flex items-center gap-2">
-        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-100">
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <circle cx="8" cy="8" r="6.5" stroke="#4F46E5" strokeWidth="1.4" />
-            <path d="M6.5 6.5C6.5 5.67 7.17 5 8 5s1.5.67 1.5 1.5c0 1-1.5 1.5-1.5 2.5" stroke="#4F46E5" strokeWidth="1.4" strokeLinecap="round" />
-            <circle cx="8" cy="11.5" r="0.7" fill="#4F46E5" />
+    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      {/* Header */}
+      <div className="mb-5 flex items-center gap-3">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-100">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <circle cx="10" cy="10" r="8" stroke="#4F46E5" strokeWidth="1.75" />
+            <path d="M8 8c0-1.1.9-2 2-2s2 .9 2 2c0 1.3-2 2-2 3" stroke="#4F46E5" strokeWidth="1.75" strokeLinecap="round" />
+            <circle cx="10" cy="14.5" r="1" fill="#4F46E5" />
           </svg>
         </div>
-        <p className="text-sm font-bold text-slate-900">Questions to Ask Your Doctor</p>
+        <div>
+          <p className="text-base font-bold text-slate-900">Questions to Ask Your Doctor</p>
+          <p className="text-xs text-slate-400">Print or screenshot before your next appointment</p>
+        </div>
       </div>
 
-      <ol className="flex flex-col gap-2.5">
-        {DOCTOR_QUESTIONS.map((q, i) => (
-          <li key={i} className="flex items-start gap-3">
+      {/* Questions list */}
+      <ol className="flex flex-col gap-3">
+        {DOCTOR_QUESTIONS.map(({ q, tag }, i) => (
+          <li key={i}
+            className="flex items-start gap-3 rounded-xl border border-slate-100 bg-slate-50 px-4 py-3.5 transition-colors duration-150 hover:border-indigo-200 hover:bg-indigo-50/40">
+            {/* Number badge */}
             <span
-              className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold"
+              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-xs font-bold"
               style={{ backgroundColor: "var(--color-brand-light)", color: "var(--color-brand)" }}
             >
               {i + 1}
             </span>
-            <p className="text-xs leading-relaxed text-slate-700">{q}</p>
+
+            <div className="flex-1">
+              <p className="text-sm font-medium leading-snug text-slate-800">{q}</p>
+              <span className="mt-1.5 inline-block rounded-full border border-indigo-200 bg-indigo-50 px-2 py-0.5 text-[10px] font-semibold text-indigo-600">
+                {tag}
+              </span>
+            </div>
+
+            {/* Copy/bookmark icon hint */}
+            <button className="mt-0.5 shrink-0 rounded-lg p-1 text-slate-300 transition-colors hover:text-indigo-500"
+              aria-label={`Copy question ${i + 1}`}>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
+                <path d="M10 4V3a1.5 1.5 0 0 0-1.5-1.5H3A1.5 1.5 0 0 0 1.5 3v5.5A1.5 1.5 0 0 0 3 10h1" stroke="currentColor" strokeWidth="1.3" />
+              </svg>
+            </button>
           </li>
         ))}
       </ol>
+
+      {/* Print button */}
+      <button className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 py-2.5 text-sm font-medium text-slate-600 transition-colors duration-150 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-600">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M4 4V1h8v3M4 12H2V7h12v5h-2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+          <rect x="4" y="10" width="8" height="5" rx="1" stroke="currentColor" strokeWidth="1.4" />
+        </svg>
+        Print Questions
+      </button>
     </div>
   );
 }
@@ -593,18 +671,26 @@ function DoctorQuestions() {
    ⑧ UNDERSTAND THE NUMBERS — HbA1c range bar
 ───────────────────────────────────────────────────────────────────────────── */
 function RangeBar() {
-  // HbA1c range 4%–10%, user at 6.1%
   const minV = 4, maxV = 10, userV = 6.1;
   const pct = ((userV - minV) / (maxV - minV)) * 100;
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <p className="mb-1 text-sm font-bold text-slate-900">Understand the Numbers</p>
-      <p className="mb-4 text-xs text-slate-400">HbA1c diagnostic thresholds — where your value sits</p>
+    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="mb-5 flex items-center gap-3">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M3 13h14M5 9h10M7 5h6" stroke="#475569" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+        </div>
+        <div>
+          <p className="text-base font-bold text-slate-900">Understand the Numbers</p>
+          <p className="text-sm text-slate-500">HbA1c diagnostic thresholds — where your value sits</p>
+        </div>
+      </div>
 
-      <div className="relative">
+      <div className="relative mt-8">
         {/* Colour bar */}
-        <div className="flex h-5 w-full overflow-hidden rounded-full">
+        <div className="flex h-6 w-full overflow-hidden rounded-full shadow-inner">
           <div className="h-full flex-[28.3%] bg-emerald-400" title="Normal: 4–5.7%" />
           <div className="h-full flex-[13.3%] bg-amber-400" title="Prediabetes: 5.7–6.5%" />
           <div className="h-full flex-[58.3%] bg-rose-500" title="Diabetes: 6.5–10%" />
@@ -612,35 +698,35 @@ function RangeBar() {
 
         {/* User value tag */}
         <div
-          className="absolute -top-7 -translate-x-1/2"
+          className="absolute -top-8 -translate-x-1/2"
           style={{ left: `${pct}%` }}
         >
-          <div className="rounded-md bg-slate-900 px-2 py-0.5 text-[10px] font-bold text-white shadow-md">
+          <div className="rounded-lg bg-slate-900 px-2.5 py-1 text-xs font-bold text-white shadow-lg">
             {userV}%
           </div>
-          <div className="mx-auto h-2 w-px bg-slate-900" />
+          <div className="mx-auto h-2.5 w-px bg-slate-900" />
         </div>
 
         {/* Tick mark */}
         <div
-          className="absolute top-0 h-5 w-0.5 bg-slate-900"
+          className="absolute top-0 h-6 w-0.5 bg-slate-900"
           style={{ left: `${pct}%` }}
         />
       </div>
 
       {/* Legend */}
-      <div className="mt-2 flex justify-between text-[10px]">
-        <div className="flex items-center gap-1">
-          <span className="h-2 w-2 rounded-full bg-emerald-400" />
-          <span className="text-slate-500">Normal (&lt;5.7%)</span>
+      <div className="mt-4 flex justify-between text-xs font-medium">
+        <div className="flex items-center gap-1.5">
+          <span className="h-3 w-3 rounded-full bg-emerald-400" />
+          <span className="text-slate-600">Normal (&lt;5.7%)</span>
         </div>
-        <div className="flex items-center gap-1">
-          <span className="h-2 w-2 rounded-full bg-amber-400" />
-          <span className="text-slate-500">Prediabetes (5.7–6.4%)</span>
+        <div className="flex items-center gap-1.5">
+          <span className="h-3 w-3 rounded-full bg-amber-400" />
+          <span className="text-slate-600">Prediabetes (5.7–6.4%)</span>
         </div>
-        <div className="flex items-center gap-1">
-          <span className="h-2 w-2 rounded-full bg-rose-500" />
-          <span className="text-slate-500">Diabetes (≥6.5%)</span>
+        <div className="flex items-center gap-1.5">
+          <span className="h-3 w-3 rounded-full bg-rose-500" />
+          <span className="text-slate-600">Diabetes (≥6.5%)</span>
         </div>
       </div>
     </div>
@@ -651,44 +737,75 @@ function RangeBar() {
    ⑨ AI CONFIDENCE RING
 ───────────────────────────────────────────────────────────────────────────── */
 function AIConfidenceRing({ pct = 91 }: { pct?: number }) {
-  const r = 30;
+  const r = 28;
   const circ = 2 * Math.PI * r;
   const dashOffset = circ * (1 - pct / 100);
 
   return (
-    <div className="flex flex-col items-center gap-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <p className="self-start text-sm font-bold text-slate-900">AI Interpretation Confidence</p>
-
-      <div className="relative flex items-center justify-center">
-        <svg width="88" height="88" viewBox="0 0 88 88" aria-label={`${pct}% confidence`}>
-          {/* Track */}
-          <circle cx="44" cy="44" r={r} fill="none" stroke="#F1F5F9" strokeWidth="10" />
-          {/* Progress */}
-          <circle
-            cx="44" cy="44" r={r}
-            fill="none"
-            stroke="url(#confGrad)"
-            strokeWidth="10"
-            strokeLinecap="round"
-            strokeDasharray={circ}
-            strokeDashoffset={dashOffset}
-            transform="rotate(-90 44 44)"
-          />
-          <defs>
-            <linearGradient id="confGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#6366F1" />
-              <stop offset="100%" stopColor="#4F46E5" />
-            </linearGradient>
-          </defs>
-        </svg>
-        <div className="absolute flex flex-col items-center">
-          <span className="text-xl font-bold text-slate-900">{pct}%</span>
+    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="mb-5 flex items-center gap-3">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
+          style={{ backgroundColor: "var(--color-brand-light)" }}>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <circle cx="9" cy="9" r="7" stroke="var(--color-brand)" strokeWidth="1.5" />
+            <path d="M9 5v4l3 2" stroke="var(--color-brand)" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        </div>
+        <div>
+          <p className="text-base font-bold text-slate-900">AI Interpretation Confidence</p>
+          <p className="text-sm text-slate-500">How reliable this analysis is</p>
         </div>
       </div>
 
-      <p className="text-center text-xs leading-relaxed text-slate-500">
-        Based on report completeness, biomarker coverage, and pattern match strength.
-      </p>
+      <div className="flex flex-col items-center gap-5 sm:flex-row sm:items-start">
+        {/* Ring — compact, only % number centered */}
+        <div className="flex flex-col items-center gap-1.5 shrink-0">
+          <div className="relative flex items-center justify-center">
+            <svg width="80" height="80" viewBox="0 0 80 80" aria-label={`${pct}% confidence`}>
+              <circle cx="40" cy="40" r={r} fill="none" stroke="#F1F5F9" strokeWidth="8" />
+              <circle
+                cx="40" cy="40" r={r}
+                fill="none"
+                stroke="url(#confGrad2)"
+                strokeWidth="8"
+                strokeLinecap="round"
+                strokeDasharray={circ}
+                strokeDashoffset={dashOffset}
+                transform="rotate(-90 40 40)"
+                className="transition-all duration-700"
+              />
+              <defs>
+                <linearGradient id="confGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#6366F1" />
+                  <stop offset="100%" stopColor="#4F46E5" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <span className="absolute text-lg font-bold text-slate-900">{pct}%</span>
+          </div>
+          <span className="text-[10px] font-semibold text-slate-400">Confidence</span>
+        </div>
+
+        {/* Breakdown bars */}
+        <div className="flex w-full min-w-0 flex-1 flex-col gap-3">
+          {[
+            { label: "Report completeness", value: 95, color: "#059669" },
+            { label: "Biomarker coverage",  value: 88, color: "#4F46E5" },
+            { label: "Pattern match",       value: 91, color: "#D97706" },
+          ].map(({ label, value, color }) => (
+            <div key={label}>
+              <div className="mb-1 flex justify-between">
+                <span className="text-xs font-medium text-slate-600">{label}</span>
+                <span className="text-xs font-bold" style={{ color }}>{value}%</span>
+              </div>
+              <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100">
+                <div className="h-full rounded-full transition-all duration-500"
+                  style={{ width: `${value}%`, backgroundColor: color }} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
@@ -697,10 +814,10 @@ function AIConfidenceRing({ pct = 91 }: { pct?: number }) {
    ⑩ LIFESTYLE TIP CARD
 ───────────────────────────────────────────────────────────────────────────── */
 const LIFESTYLE_ITEMS = [
-  { key: "nutrition", emoji: "🥗", label: "Nutrition",  tip: "Mediterranean-style diet recommended" },
-  { key: "fitness",   emoji: "🏃", label: "Fitness",    tip: "150 min/week moderate aerobic activity" },
-  { key: "stress",    emoji: "🧘", label: "Stress",     tip: "Mindfulness or breathing exercises daily" },
-  { key: "sleep",     emoji: "😴", label: "Sleep",      tip: "7–9 hours per night for glucose regulation" },
+  { key: "nutrition", emoji: "🥗", label: "Nutrition",  tip: "Mediterranean-style diet recommended", color: "#059669", bg: "#ECFDF5" },
+  { key: "fitness",   emoji: "🏃", label: "Fitness",    tip: "150 min/week moderate aerobic activity", color: "#2563EB", bg: "#EFF6FF" },
+  { key: "stress",    emoji: "🧘", label: "Stress",     tip: "Mindfulness or breathing exercises daily", color: "#7C3AED", bg: "#F5F3FF" },
+  { key: "sleep",     emoji: "😴", label: "Sleep",      tip: "7–9 hours per night for glucose regulation", color: "#D97706", bg: "#FFFBEB" },
 ];
 
 function LifestyleTipCard() {
@@ -715,48 +832,58 @@ function LifestyleTipCard() {
   }
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-4 flex items-center gap-2">
-        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-100 text-base">
+    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="mb-5 flex items-center gap-3">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-xl">
           🌱
         </div>
-        <p className="text-sm font-bold text-slate-900">Lifestyle Tip for You</p>
+        <div>
+          <p className="text-base font-bold text-slate-900">Lifestyle Tips for You</p>
+          <p className="text-sm text-slate-500">Personalised recommendations based on your results</p>
+        </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-2">
-        {LIFESTYLE_ITEMS.map(({ key, emoji, label, tip }) => {
+      <div className="grid grid-cols-2 gap-3">
+        {LIFESTYLE_ITEMS.map(({ key, emoji, label, tip, color, bg }) => {
           const on = active.has(key);
           return (
             <button
               key={key}
               onClick={() => toggle(key)}
-              className={`flex flex-col items-start gap-1.5 rounded-xl border p-3 text-left transition-all duration-150 ${
+              className={`flex flex-col items-start gap-2 rounded-xl border p-4 text-left transition-all duration-200 ${
                 on
-                  ? "border-emerald-300 bg-emerald-50"
-                  : "border-slate-200 bg-slate-50 opacity-60"
+                  ? "shadow-sm"
+                  : "opacity-50 grayscale"
               }`}
+              style={on
+                ? { backgroundColor: bg, borderColor: color + "40" }
+                : { backgroundColor: "#F8FAFC", borderColor: "#E2E8F0" }
+              }
             >
-              <div className="flex items-center gap-1.5">
-                <span className="text-base">{emoji}</span>
-                <span className={`text-xs font-semibold ${on ? "text-emerald-700" : "text-slate-500"}`}>
-                  {label}
-                </span>
-                {/* Toggle square */}
+              <div className="flex w-full items-center justify-between">
+                <span className="text-2xl">{emoji}</span>
+                {/* Toggle indicator */}
                 <span
-                  className={`ml-auto h-3.5 w-3.5 rounded-sm border ${
-                    on ? "border-emerald-500 bg-emerald-500" : "border-slate-300 bg-white"
+                  className={`h-4 w-4 rounded-full border-2 transition-all ${
+                    on ? "border-current bg-current" : "border-slate-300 bg-white"
                   }`}
+                  style={on ? { borderColor: color, backgroundColor: color } : {}}
                 >
                   {on && (
-                    <svg viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                    <svg viewBox="0 0 10 10" fill="none" className="h-full w-full p-0.5" aria-hidden="true">
                       <path d="M2 5l2.5 2.5L8 3" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   )}
                 </span>
               </div>
-              <p className={`text-[10px] leading-relaxed ${on ? "text-emerald-600" : "text-slate-400"}`}>
-                {tip}
-              </p>
+              <div>
+                <p className="text-sm font-semibold" style={{ color: on ? color : "#94A3B8" }}>
+                  {label}
+                </p>
+                <p className="mt-0.5 text-xs leading-snug" style={{ color: on ? "#475569" : "#94A3B8" }}>
+                  {tip}
+                </p>
+              </div>
             </button>
           );
         })}
@@ -764,7 +891,6 @@ function LifestyleTipCard() {
     </div>
   );
 }
-
 /* ─────────────────────────────────────────────────────────────────────────────
    ROOT — CenterStage
 ───────────────────────────────────────────────────────────────────────────── */
@@ -780,19 +906,6 @@ export default function CenterStage({ query, fileNames = [], isLoading }: Center
 
         {/* ② Alert banner */}
         <AlertBanner />
-
-        {/* ③ Key findings grid */}
-        <FindingsGrid />
-
-        {/* ④ + ⑤  Blood sugar trend + HbA1c gauge — side by side on wide */}
-        <div className="grid grid-cols-1 gap-5 xl:grid-cols-3">
-          <div className="xl:col-span-2">
-            <BloodSugarChart />
-          </div>
-          <div>
-            <HbA1cGauge />
-          </div>
-        </div>
 
         {/* ⑧ Range bar */}
         <RangeBar />

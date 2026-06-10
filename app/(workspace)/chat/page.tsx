@@ -4,7 +4,7 @@ import CenterStage from "@/components/chat/CenterStage";
 import ChatInputZone, { type AttachedFile } from "@/components/chat/ChatInputZone";
 import ChatSidebar from "@/components/chat/ChatSidebar";
 import RightChatPanel, { type ChatMessage } from "@/components/chat/RightChatPanel";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    View state type
@@ -44,13 +44,49 @@ function mockAIResponse(userMsg: string): string {
 export default function ChatPage() {
   const [viewState, setViewState]       = useState<ViewState>("input");
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [messages, setMessages]         = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading]       = useState(false);
   const [activeQuery, setActiveQuery]   = useState("");
   const [activeFiles, setActiveFiles]   = useState<string[]>([]);
+  const [showCenterStage, setShowCenterStage] = useState(false);
+  const [fileAlreadyUploaded, setFileAlreadyUploaded] = useState(false);
 
   // Mobile: track which panel is visible in analysis state
   const [mobilePanelTab, setMobilePanelTab] = useState<"analysis" | "chat">("analysis");
+
+  // Resizable right panel
+  const [panelWidth, setPanelWidth]   = useState(480);
+  const isResizing                     = useRef(false);
+  const PANEL_MIN = 320;
+  const PANEL_MAX = 650;
+
+  const handleMouseDown = useCallback(() => {
+    isResizing.current = true;
+    document.body.style.cursor = "col-resize";
+    document.body.style.userSelect = "none";
+  }, []);
+
+  useEffect(() => {
+    function handleMouseMove(e: MouseEvent) {
+      if (!isResizing.current) return;
+      const newWidth = window.innerWidth - e.clientX;
+      setPanelWidth(Math.min(PANEL_MAX, Math.max(PANEL_MIN, newWidth)));
+    }
+    function handleMouseUp() {
+      if (isResizing.current) {
+        isResizing.current = false;
+        document.body.style.cursor = "";
+        document.body.style.userSelect = "";
+      }
+    }
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, []);
 
   /* ──────────────────────────────────────────────────────────────────────────
      Send handler — triggers the view transition
@@ -68,6 +104,12 @@ export default function ChatPage() {
     setActiveFiles(files.map((f) => f.file.name));
     setMessages([userMsg]);
     setIsLoading(true);
+
+    // Only show CenterStage if files were attached
+    if (files.length > 0) {
+      setShowCenterStage(true);
+      setFileAlreadyUploaded(true);
+    }
 
     // Trigger layout transition immediately
     setViewState("analysis");
@@ -97,6 +139,14 @@ export default function ChatPage() {
     setMessages((prev) => [...prev, userMsg]);
     setIsLoading(true);
 
+    // Show CenterStage if files attached in follow-up too
+    if (files.length > 0 && !showCenterStage) {
+      setActiveFiles(files.map((f) => f.file.name));
+      setActiveQuery(prompt);
+      setShowCenterStage(true);
+      setFileAlreadyUploaded(true);
+    }
+
     setTimeout(() => {
       setMessages((prev) => [
         ...prev,
@@ -118,6 +168,8 @@ export default function ChatPage() {
     >
       {/* ── LEFT HISTORY SIDEBAR ──────────────────────────────────────────── */}
       <ChatSidebar
+        collapsed={sidebarCollapsed}
+        onToggleCollapse={() => setSidebarCollapsed((c) => !c)}
         mobileOpen={mobileNavOpen}
         onMobileClose={() => setMobileNavOpen(false)}
       />
@@ -127,7 +179,7 @@ export default function ChatPage() {
 
         {/* Top bar */}
         <header
-          className="flex h-14 shrink-0 items-center justify-between px-5 transition-all duration-300"
+          className="flex h-16 shrink-0 items-center justify-between px-6 transition-all duration-300"
           style={{
             backgroundColor: "var(--color-bg-base)",
             borderBottom: "1px solid var(--color-border)",
@@ -135,33 +187,33 @@ export default function ChatPage() {
         >
           {/* Mobile sidebar toggle */}
           <button
-            className="flex h-8 w-8 items-center justify-center rounded-lg md:hidden"
+            className="flex h-9 w-9 items-center justify-center rounded-lg md:hidden"
             style={{ color: "var(--color-text-secondary)" }}
             onClick={() => setMobileNavOpen(true)}
             aria-label="Open menu"
           >
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 18 18" fill="none" aria-hidden="true">
               <path d="M2 5h14M2 9h14M2 13h14" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
             </svg>
           </button>
 
           {/* Title + state indicator */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <div
-              className="hidden h-6 w-6 items-center justify-center rounded-lg md:flex"
+              className="hidden h-7 w-7 items-center justify-center rounded-lg md:flex"
               style={{ backgroundColor: "var(--color-brand-light)" }}
             >
-              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                 <path d="M2 12V5a1 1 0 0 1 1-1h2l1-2h2l1 2h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1Z"
                   stroke="var(--color-brand)" strokeWidth="1.2" strokeLinejoin="round" />
                 <circle cx="7" cy="8" r="1.5" stroke="var(--color-brand)" strokeWidth="1.2" />
               </svg>
             </div>
-            <span className="text-sm font-semibold" style={{ color: "var(--color-text-primary)" }}>
+            <span className="text-base font-semibold" style={{ color: "var(--color-text-primary)" }}>
               {viewState === "input" ? "New Analysis" : "Report Analysis"}
             </span>
             <span
-              className="rounded-full px-2 py-0.5 text-xs font-medium"
+              className="rounded-full px-2.5 py-0.5 text-xs font-semibold"
               style={{ backgroundColor: "var(--color-brand-light)", color: "var(--color-brand)" }}
             >
               AI
@@ -188,6 +240,8 @@ export default function ChatPage() {
                   setMessages([]);
                   setActiveQuery("");
                   setActiveFiles([]);
+                  setShowCenterStage(false);
+                  setFileAlreadyUploaded(false);
                 }}
                 className="hidden items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-medium transition-colors duration-150 md:inline-flex"
                 style={{
@@ -308,36 +362,42 @@ export default function ChatPage() {
               style={{
                 backgroundColor: "var(--color-bg-base)",
                 borderTop: "1px solid var(--color-border)",
+                boxShadow: "0 -4px 12px rgba(15,23,42,0.06)",
               }}
             >
-              {(["analysis", "chat"] as const).map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setMobilePanelTab(tab)}
-                  className="flex flex-1 items-center justify-center gap-1.5 py-3 text-xs font-semibold transition-colors duration-150"
-                  style={
-                    mobilePanelTab === tab
-                      ? { color: "var(--color-brand)", borderTop: "2px solid var(--color-brand)" }
-                      : { color: "var(--color-text-muted)", borderTop: "2px solid transparent" }
-                  }
-                >
-                  {tab === "analysis" ? (
-                    <>
-                      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                        <path d="M2 12L5.5 7l2.5 3L11 5l3 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              {(["analysis", "chat"] as const).map((tab) => {
+                const isActive = mobilePanelTab === tab;
+                return (
+                  <button
+                    key={tab}
+                    onClick={() => setMobilePanelTab(tab)}
+                    className="flex flex-1 flex-col items-center justify-center gap-1 py-3.5 transition-colors duration-150"
+                    style={
+                      isActive
+                        ? { color: "var(--color-brand)" }
+                        : { color: "var(--color-text-muted)" }
+                    }
+                  >
+                    {tab === "analysis" ? (
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="M3 15L7.5 9l3 3.5L14.5 6l3 5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
-                      Analysis
-                    </>
-                  ) : (
-                    <>
-                      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                        <path d="M2 3h12a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H5l-3 2V4a1 1 0 0 1 1-1Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/>
+                    ) : (
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="M3 4h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H6l-3 2.5V5a1 1 0 0 1 1-1Z" stroke="currentColor" strokeWidth="1.75" strokeLinejoin="round"/>
                       </svg>
-                      Chat
-                    </>
-                  )}
-                </button>
-              ))}
+                    )}
+                    <span className="text-xs font-semibold">
+                      {tab === "analysis" ? "Analysis" : "Chat"}
+                    </span>
+                    {/* Active indicator dot */}
+                    {isActive && (
+                      <span className="absolute bottom-1 h-1 w-6 rounded-full"
+                        style={{ backgroundColor: "var(--color-brand)" }} />
+                    )}
+                  </button>
+                );
+              })}
             </div>
 
             {/* ── CENTER STAGE (analysis results) ───────────────────────── */}
@@ -345,14 +405,19 @@ export default function ChatPage() {
               Desktop: flex-1 (fills remaining space between left sidebar and right chat panel)
               Mobile: full width, hidden when chat tab is active, padded-bottom for tab bar
             */}
+            {/* CenterStage — always visible on desktop, tab-controlled on mobile */}
             <div
-              className={[
-                "flex-1 overflow-hidden transition-all duration-500 ease-in-out",
-                // Desktop: always visible
-                "md:block",
-                // Mobile: shown only on analysis tab
-                mobilePanelTab === "analysis" ? "block pb-12 md:pb-0" : "hidden md:block",
-              ].join(" ")}
+              className={
+                showCenterStage
+                  ? [
+                      "flex-1 overflow-hidden transition-all duration-500 ease-in-out",
+                      // Desktop: always visible
+                      "md:block",
+                      // Mobile: only visible when analysis tab is active
+                      mobilePanelTab === "analysis" ? "max-md:block max-md:pb-12" : "max-md:hidden",
+                    ].join(" ")
+                  : "hidden"
+              }
             >
               <CenterStage
                 query={activeQuery}
@@ -362,29 +427,50 @@ export default function ChatPage() {
             </div>
 
             {/* ── RIGHT CHAT PANEL ──────────────────────────────────────── */}
-            {/*
-              Desktop: fixed 360px right column with left border, slides in
-              Mobile:  full screen overlay when chat tab active, padded for tab bar
-            */}
             <div
               className={[
-                "overflow-hidden transition-all duration-500 ease-in-out",
-                // Desktop: shrink-to-width column
-                "md:w-[360px] md:shrink-0",
-                // Desktop border
-                "md:border-l",
-                // Mobile: full width on chat tab
-                mobilePanelTab === "chat"
-                  ? "absolute inset-0 z-20 w-full pb-12 md:relative md:inset-auto md:z-auto md:w-[360px] md:pb-0"
-                  : "hidden md:flex",
+                "relative overflow-hidden transition-all duration-500 ease-in-out",
+                showCenterStage ? "md:shrink-0 md:border-l" : "flex-1",
+                // Desktop: always in normal flow (never absolute)
+                "md:relative md:inset-auto md:z-auto md:w-auto md:pb-0",
+                // Mobile: full width on chat tab OR when no centerstage
+                mobilePanelTab === "chat" || !showCenterStage
+                  ? "max-md:absolute max-md:inset-0 max-md:z-20 max-md:w-full max-md:pb-12"
+                  : "max-md:hidden",
               ].join(" ")}
-              style={{ borderColor: "var(--color-border)" }}
+              style={{
+                borderColor: showCenterStage ? "var(--color-border)" : "transparent",
+                width: showCenterStage ? panelWidth : undefined,
+                minWidth: showCenterStage ? "320px" : undefined,
+                backgroundColor: showCenterStage ? "var(--color-bg-base)" : "var(--color-bg-subtle)",
+              }}
             >
-              <div className="flex h-full w-full flex-col">
+              {/* Drag handle — only when CenterStage is visible */}
+              {showCenterStage && (
+                <div
+                  className="absolute inset-y-0 left-0 z-10 hidden w-1.5 cursor-col-resize md:block"
+                  onMouseDown={handleMouseDown}
+                  style={{ backgroundColor: "transparent" }}
+                >
+                  <div className="mx-auto h-full w-px transition-colors duration-150"
+                    style={{ backgroundColor: "var(--color-border)" }} />
+                  <div className="absolute left-0 top-1/2 -translate-y-1/2 flex h-8 w-1.5 items-center justify-center rounded-full opacity-0 transition-opacity duration-150 hover:opacity-100"
+                    style={{ backgroundColor: "var(--color-brand-light)" }}>
+                    <div className="flex flex-col gap-0.5">
+                      <span className="h-1 w-0.5 rounded-full" style={{ backgroundColor: "var(--color-brand)" }} />
+                      <span className="h-1 w-0.5 rounded-full" style={{ backgroundColor: "var(--color-brand)" }} />
+                      <span className="h-1 w-0.5 rounded-full" style={{ backgroundColor: "var(--color-brand)" }} />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div className={`flex h-full w-full flex-col ${!showCenterStage ? "mx-auto max-w-3xl" : ""}`}>
                 <RightChatPanel
                   messages={messages}
                   onSend={handleFollowUp}
                   isLoading={isLoading}
+                  fileUploadDisabled={fileAlreadyUploaded}
                 />
               </div>
             </div>

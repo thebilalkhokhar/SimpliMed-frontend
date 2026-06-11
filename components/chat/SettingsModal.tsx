@@ -261,7 +261,7 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
                   </a>
                 </div>
 
-                {/* Password */}
+                {/* Password — hidden for now
                 <div className="flex items-center justify-between rounded-2xl border p-4"
                   style={{ borderColor: "var(--color-border)" }}>
                   <div>
@@ -281,6 +281,7 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
                     </button>
                   </div>
                 </div>
+                */}
 
                 {/* Danger */}
                 <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4">

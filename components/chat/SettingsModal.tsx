@@ -68,7 +68,7 @@ interface SettingsModalProps {
 }
 
 export default function SettingsModal({ onClose }: SettingsModalProps) {
-  const [tab, setTab] = useState<SettingsTab>("general");
+  const [tab, setTab] = useState<SettingsTab>("account");
 
   // General
   const [density, setDensity]       = useState<"comfortable" | "compact">("comfortable");
@@ -84,6 +84,7 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
   const [autoAnalyse, setAutoAnalyse] = useState(true);
 
   const TABS: { key: SettingsTab; label: string; icon: React.ReactNode }[] = [
+    /* Commented out for now
     {
       key: "general", label: "General",
       icon: <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 5h10M3 8h10M3 11h10" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/><circle cx="6" cy="5" r="1.5" fill="var(--color-bg-base)" stroke="currentColor" strokeWidth="1.3"/><circle cx="10" cy="8" r="1.5" fill="var(--color-bg-base)" stroke="currentColor" strokeWidth="1.3"/><circle cx="5" cy="11" r="1.5" fill="var(--color-bg-base)" stroke="currentColor" strokeWidth="1.3"/></svg>,
@@ -96,6 +97,7 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
       key: "ai", label: "AI Preferences",
       icon: <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="3" stroke="currentColor" strokeWidth="1.3"/><path d="M5 8h6M8 5v6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>,
     },
+    */
     {
       key: "account", label: "Account",
       icon: <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5.5" r="3" stroke="currentColor" strokeWidth="1.3"/><path d="M2 14c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>,

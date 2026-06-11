@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 
 const FOOTER_LINKS = {
   Product: [
@@ -75,7 +74,7 @@ export default function PublicFooter() {
           {/* Brand column — 2 cols wide */}
           <div className="lg:col-span-2">
             {/* Logo */}
-            <Link href="/" className="mb-4 inline-flex items-center gap-2.5 no-underline">
+            <div className="mb-4 inline-flex items-center gap-2.5">
               <Image
                 src="/logo.svg"
                 alt="Simplimed logo"
@@ -88,7 +87,7 @@ export default function PublicFooter() {
                 style={{ color: "var(--color-text-primary)" }}>
                 Simplimed
               </span>
-            </Link>
+            </div>
 
             <p className="mb-6 max-w-xs text-sm leading-relaxed"
               style={{ color: "var(--color-text-secondary)" }}>
@@ -111,26 +110,17 @@ export default function PublicFooter() {
               ))}
             </div>
 
-            {/* Social links */}
+            {/* Social icons */}
             <div className="flex items-center gap-2">
-              {SOCIAL.map(({ label, href, icon }) => (
-                <a
+              {SOCIAL.map(({ label, icon }) => (
+                <span
                   key={label}
-                  href={href}
                   aria-label={label}
-                  className="flex h-8 w-8 items-center justify-center rounded-lg transition-colors duration-150"
+                  className="flex h-8 w-8 items-center justify-center rounded-lg"
                   style={{ color: "var(--color-text-muted)" }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.backgroundColor = "var(--color-bg-overlay)";
-                    (e.currentTarget as HTMLElement).style.color = "var(--color-text-primary)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.backgroundColor = "";
-                    (e.currentTarget as HTMLElement).style.color = "var(--color-text-muted)";
-                  }}
                 >
                   {icon}
-                </a>
+                </span>
               ))}
             </div>
           </div>
@@ -143,17 +133,11 @@ export default function PublicFooter() {
                 {group}
               </p>
               <ul className="flex flex-col gap-2">
-                {links.map(({ label, href }) => (
+                {links.map(({ label }) => (
                   <li key={label}>
-                    <a
-                      href={href}
-                      className="text-sm transition-colors duration-150"
-                      style={{ color: "var(--color-text-muted)" }}
-                      onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--color-text-primary)")}
-                      onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--color-text-muted)")}
-                    >
+                    <span className="text-sm" style={{ color: "var(--color-text-muted)" }}>
                       {label}
-                    </a>
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -173,14 +157,9 @@ export default function PublicFooter() {
           </p>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
             {["Privacy Policy", "Terms of Service", "Cookie Policy"].map((item) => (
-              <a key={item} href="#"
-                className="text-xs transition-colors duration-150"
-                style={{ color: "var(--color-text-muted)" }}
-                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--color-text-secondary)")}
-                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--color-text-muted)")}
-              >
+              <span key={item} className="text-xs" style={{ color: "var(--color-text-muted)" }}>
                 {item}
-              </a>
+              </span>
             ))}
           </div>
         </div>

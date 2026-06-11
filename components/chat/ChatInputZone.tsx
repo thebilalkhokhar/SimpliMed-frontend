@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type ChangeEvent } from "react";
+import { useEffect, useRef, useState, type ChangeEvent } from "react";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    Types
@@ -14,6 +14,7 @@ export interface AttachedFile {
 interface ChatInputZoneProps {
   onSend: (prompt: string, files: AttachedFile[]) => void;
   disabled?: boolean;
+  defaultPrompt?: string;
 }
 
 const ACCEPTED = ["application/pdf", "image/png", "image/jpeg", "image/jpg"];
@@ -64,12 +65,24 @@ function FileChip({ af, onRemove }: { af: AttachedFile; onRemove: () => void }) 
 /* ─────────────────────────────────────────────────────────────────────────────
    Main component — no drag-and-drop, just textarea + attach + send
 ───────────────────────────────────────────────────────────────────────────── */
-export default function ChatInputZone({ onSend, disabled = false }: ChatInputZoneProps) {
-  const [prompt, setPrompt]       = useState("");
+export default function ChatInputZone({ onSend, disabled = false, defaultPrompt }: ChatInputZoneProps) {
+  const [prompt, setPrompt]       = useState(defaultPrompt || "");
   const [files, setFiles]         = useState<AttachedFile[]>([]);
   const [fileError, setFileError] = useState<string | null>(null);
   const fileInputRef              = useRef<HTMLInputElement>(null);
   const textareaRef               = useRef<HTMLTextAreaElement>(null);
+
+  // Sync defaultPrompt from parent (suggestion chip clicks)
+  useEffect(() => {
+    if (defaultPrompt !== undefined) {
+      setPrompt(defaultPrompt);
+      // Auto-resize textarea
+      if (textareaRef.current) {
+        textareaRef.current.style.height = "auto";
+        textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 200)}px`;
+      }
+    }
+  }, [defaultPrompt]);
 
   /* ── File handling ── */
   function validateAndAdd(incoming: File[]) {

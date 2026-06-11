@@ -16,14 +16,14 @@ type ViewState = "input" | "analysis";
    Suggested prompts
 ───────────────────────────────────────────────────────────────────────────── */
 const SUGGESTIONS = [
-  { bg: "var(--color-normal-bg)", border: "var(--color-normal-border)", label: "Explain my CBC results",
-    icon: <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2v12M2 8h12" stroke="var(--color-normal-text)" strokeWidth="1.75" strokeLinecap="round"/><circle cx="8" cy="8" r="7" stroke="var(--color-normal-text)" strokeWidth="1.25"/></svg> },
-  { bg: "var(--color-info-bg)", border: "var(--color-info-border)", label: "Summarise my lipid panel",
-    icon: <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 12L5.5 7l2.5 3L11 5l3 5.5" stroke="var(--color-info-text)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg> },
-  { bg: "var(--color-brand-light)", border: "#C7D2FE", label: "What does my MRI report mean?",
-    icon: <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="2" y="1" width="12" height="14" rx="2" stroke="var(--color-brand)" strokeWidth="1.4"/><path d="M5 6h6M5 9h6M5 12h3" stroke="var(--color-brand)" strokeWidth="1.4" strokeLinecap="round"/></svg> },
-  { bg: "var(--color-abnormal-bg)", border: "var(--color-abnormal-border)", label: "Is my urinalysis normal?",
-    icon: <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3C8 3 3 8.5 3 11a5 5 0 0 0 10 0C13 8.5 8 3 8 3Z" stroke="var(--color-abnormal-text)" strokeWidth="1.4" strokeLinejoin="round"/></svg> },
+  { bg: "var(--color-normal-bg)", border: "var(--color-normal-border)", label: "Give me peace of mind",
+    icon: <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2C8 2 3 6 3 9.5a5 5 0 0 0 10 0C13 6 8 2 8 2Z" stroke="var(--color-normal-text)" strokeWidth="1.4" strokeLinejoin="round"/><path d="M8 9v2" stroke="var(--color-normal-text)" strokeWidth="1.4" strokeLinecap="round"/></svg> },
+  { bg: "var(--color-info-bg)", border: "var(--color-info-border)", label: "Can you explain this?",
+    icon: <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.5" stroke="var(--color-info-text)" strokeWidth="1.4"/><path d="M6.5 6.5a1.5 1.5 0 0 1 3 0c0 1-1.5 1.5-1.5 2.5" stroke="var(--color-info-text)" strokeWidth="1.4" strokeLinecap="round"/><circle cx="8" cy="12" r="0.75" fill="var(--color-info-text)"/></svg> },
+  { bg: "var(--color-brand-light)", border: "#C7D2FE", label: "Make this easier to understand",
+    icon: <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 12L5.5 7l2.5 3L11 5l3 5.5" stroke="var(--color-brand)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg> },
+  { bg: "var(--color-abnormal-bg)", border: "var(--color-abnormal-border)", label: "What should I ask my doctor?",
+    icon: <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3l1.5 3H13l-2.5 2.5L11.5 12 8 10l-3.5 2 1-3.5L3 6h3.5L8 3Z" stroke="var(--color-abnormal-text)" strokeWidth="1.3" strokeLinejoin="round"/></svg> },
 ];
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -54,6 +54,7 @@ export default function ChatPage() {
   const [showCenterStage, setShowCenterStage] = useState(false);
   const [showRightPanel, setShowRightPanel] = useState(false);
   const [fileAlreadyUploaded, setFileAlreadyUploaded] = useState(false);
+  const [selectedSuggestion, setSelectedSuggestion] = useState("");
 
   // Mobile: track which panel is visible in analysis state
   const [mobilePanelTab, setMobilePanelTab] = useState<"analysis" | "chat">("analysis");
@@ -321,11 +322,12 @@ export default function ChatPage() {
 
             {/* Suggestion chips */}
             <div className="mb-6 flex flex-wrap justify-center gap-2">
-              {SUGGESTIONS.map((s) => (
+              {SUGGESTIONS.map((s, i) => (
                 <button
-                  key={s.label}
+                  key={i}
                   type="button"
-                  className="flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-medium transition-shadow duration-150"
+                  onClick={() => setSelectedSuggestion(s.label)}
+                  className="flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-medium transition-shadow duration-150 cursor-pointer"
                   style={{ backgroundColor: s.bg, borderColor: s.border, color: "var(--color-text-secondary)" }}
                   onMouseEnter={(e) => {
                     (e.currentTarget as HTMLElement).style.boxShadow = "var(--shadow-card)";
@@ -343,7 +345,7 @@ export default function ChatPage() {
             </div>
 
             {/* Full-size input zone */}
-            <ChatInputZone onSend={handleSend} />
+            <ChatInputZone onSend={handleSend} defaultPrompt={selectedSuggestion} />
 
             <p className="mt-4 max-w-sm text-center text-xs" style={{ color: "var(--color-text-muted)" }}>
               Simplimed is an AI assistant and does not provide medical diagnoses.

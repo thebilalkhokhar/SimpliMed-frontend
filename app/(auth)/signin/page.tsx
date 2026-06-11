@@ -60,7 +60,7 @@ export default function SignInPage() {
           style={{ background: "radial-gradient(circle, #10B981 0%, transparent 70%)" }} />
 
         {/* Diagonal ribbon — centred to card, same opacity as landing page */}
-        <div className="absolute left-[-5%] right-[-5%] top-1/2 h-[220px] -translate-y-1/2 -rotate-[4deg]"
+        <div className="hidden md:block absolute left-[-5%] right-[-5%] top-1/2 h-[220px] -translate-y-1/2 -rotate-[4deg]"
           style={{
             background: "linear-gradient(135deg, #4F46E5 0%, #6366F1 50%, #818CF8 100%)",
             borderRadius: "2rem",

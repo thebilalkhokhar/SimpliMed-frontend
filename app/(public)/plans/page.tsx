@@ -119,10 +119,10 @@ export default function PlansPage() {
           style={{ backgroundImage: "radial-gradient(circle, #0F172A 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
 
         <div className="relative z-10 mx-auto max-w-3xl">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border px-4 py-1.5"
+          {/* <div className="mb-4 inline-flex items-center gap-2 rounded-full border px-4 py-1.5"
             style={{ backgroundColor: "rgba(238,242,255,0.8)", borderColor: "#C7D2FE" }}>
             <span className="text-xs font-semibold" style={{ color: "var(--color-brand)" }}>Manage Your Plan</span>
-          </div>
+          </div> */}
 
           <h1 className="mb-4 text-3xl font-bold leading-tight tracking-tight sm:text-4xl"
             style={{ color: "var(--color-text-primary)" }}>
@@ -161,7 +161,7 @@ export default function PlansPage() {
         style={{ backgroundColor: "#FAFBFF" }}>
         {/* Ribbon */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-          <div className="absolute left-[-5%] right-[-5%] top-1/2 h-[240px] -translate-y-1/2 -rotate-[3deg]"
+          <div className="hidden md:block absolute left-[-5%] right-[-5%] top-1/2 h-[240px] -translate-y-1/2 -rotate-[3deg]"
             style={{
               background: "linear-gradient(135deg, #4F46E5 0%, #6366F1 50%, #818CF8 100%)",
               borderRadius: "2rem",

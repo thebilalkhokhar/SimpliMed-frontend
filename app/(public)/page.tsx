@@ -299,7 +299,7 @@ export default function LandingPage() {
         {/* ── Fat diagonal ribbon ── */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
           {/* The ribbon: a wide band rotated -4deg, stretching beyond edges */}
-          <div className="absolute left-[-5%] right-[-5%] top-1/2 h-[220px] -translate-y-1/2 -rotate-[4deg]"
+          <div className="hidden md:block absolute left-[-5%] right-[-5%] top-1/2 h-[220px] -translate-y-1/2 -rotate-[4deg]"
             style={{
               background: "linear-gradient(135deg, #4F46E5 0%, #6366F1 50%, #818CF8 100%)",
               borderRadius: "2rem",
@@ -392,7 +392,7 @@ export default function LandingPage() {
 
         {/* ── Fat diagonal ribbon (flipped — rotates +4deg) ── */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-          <div className="absolute left-[-5%] right-[-5%] bottom-[15%] h-[220px] rotate-[4deg]"
+          <div className="hidden md:block absolute left-[-5%] right-[-5%] bottom-[15%] h-[220px] rotate-[4deg]"
             style={{
               background: "linear-gradient(135deg, #818CF8 0%, #6366F1 50%, #4F46E5 100%)",
               borderRadius: "2rem",
@@ -506,7 +506,7 @@ export default function LandingPage() {
             </svg>
 
             {/* Testimonial content — horizontal slide */}
-            <div className="min-h-[150px] overflow-hidden">
+            <div className="min-h-[220px] overflow-hidden sm:min-h-[150px]">
               {TESTIMONIALS.map((t, i) => {
                 let transform = "translateX(100%)";
                 let opacity = "0";
@@ -585,195 +585,50 @@ export default function LandingPage() {
       {/* ════════════════════════════════════════════════════════════════
           7. FAQ + CTA — side by side
       ════════════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden px-6 py-14 sm:px-10 lg:px-16"
-        style={{ backgroundColor: "#FAFBFF" }}>
-        {/* Diagonal ribbon behind */}
+
+
+      {/* ════════════════════════════════════════════════════════════════
+          8. CTA — full width row (no card)
+      ════════════════════════════════════════════════════════════════ */}
+      <section className="relative overflow-hidden px-6 py-12 sm:px-10 lg:px-16"
+        style={{ backgroundColor: "var(--color-bg-base)" }}>
+        {/* Blurred blobs background */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-          <div className="absolute left-[-5%] right-[-5%] top-[45%] h-[200px] -rotate-[4deg]"
-            style={{
-              background: "linear-gradient(135deg, #4F46E5 0%, #6366F1 50%, #818CF8 100%)",
-              borderRadius: "2rem",
-              opacity: 0.85,
-            }} />
-          <div className="absolute inset-0 opacity-[0.04]"
-            style={{ backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)", backgroundSize: "20px 20px" }} />
+          <div className="animate-blob-1 absolute -left-20 top-1/2 h-[300px] w-[300px] -translate-y-1/2 rounded-full opacity-20"
+            style={{ background: "radial-gradient(circle, #6366F1 0%, transparent 70%)" }} />
+          <div className="animate-blob-2 absolute -right-16 top-1/2 h-[250px] w-[250px] -translate-y-1/2 rounded-full opacity-15"
+            style={{ background: "radial-gradient(circle, #3B82F6 0%, transparent 70%)" }} />
         </div>
-        {/* Subtle background */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-[0.02]"
           style={{ backgroundImage: "radial-gradient(circle, #0F172A 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
 
-        <div className="relative z-10 mx-auto max-w-[1920px]">
-          {/* Grid: FAQ left, CTA right */}
-          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
+        <div className="relative z-10 mx-auto flex max-w-[1920px] flex-col items-center gap-6 sm:flex-row sm:justify-between sm:text-left text-center">
+          {/* Copy */}
+          <div>
+            <h2 className="text-xl font-bold tracking-tight sm:text-2xl" style={{ color: "var(--color-text-primary)" }}>
+              Ready to understand your health?
+            </h2>
+            <p className="mt-1.5 max-w-lg text-sm leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
+              Upload your first report in seconds. No credit card required. Join 50,000+ people who already understand their medical data.
+            </p>
+          </div>
 
-            {/* ── LEFT: FAQ ── */}
-            <div>
-              {/* Header */}
-              <div className="mb-8">
-                <div className="mb-4 inline-flex items-center gap-2 rounded-full border px-4 py-1.5"
-                  style={{ backgroundColor: "rgba(238,242,255,0.8)", borderColor: "#C7D2FE" }}>
-                  <span className="text-xs font-semibold" style={{ color: "var(--color-brand)" }}>FAQ</span>
-                </div>
-                <h2 className="text-2xl font-bold tracking-tight sm:text-3xl" style={{ color: "var(--color-text-primary)" }}>
-                  Common{" "}
-                  <span className="bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">questions</span>
-                </h2>
-                <p className="mt-3 max-w-md text-sm leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
-                  Everything you need to know before uploading your first report.
-                </p>
-              </div>
-
-              {/* Accordion */}
-              <div className="flex flex-col gap-2.5">
-                {[
-                  { q: "Is my medical data private and secure?", a: "Yes. All data is encrypted at rest and in transit. We are HIPAA-compliant and never sell or share your data with third parties. You can delete all your data at any time from your settings." },
-                  { q: "What file formats does Simplimed support?", a: "We support PDF, JPG, JPEG, and PNG. Most lab reports, radiology reports, and clinical summaries are provided in these formats. If you have a different format, contact us." },
-                  { q: "How accurate is the AI analysis?", a: "Our AI achieves 99.2% accuracy on standard biomarker interpretation against clinically validated reference ranges. We continuously improve our models with new medical literature." },
-                  { q: "Can Simplimed replace my doctor?", a: "No — and it's not designed to. Simplimed helps you understand your reports and prepare better questions for your doctor. All analysis is for informational purposes only and should not replace professional medical advice." },
-                  { q: "How long does analysis take?", a: "Most reports are analysed in under 30 seconds. Complex imaging reports with dense text may take up to 2 minutes." },
-                  { q: "Is there a free plan?", a: "Yes. The Free plan gives you 3 report analyses per month with no credit card required. Upgrade to Pro for unlimited analyses, all report types, and medication tracking." },
-                ].map((item, i) => {
-                  const isOpen = openFaq === i;
-                  return (
-                    <div key={i}
-                      className="overflow-hidden rounded-2xl border transition-all duration-200"
-                      style={{
-                        borderColor: isOpen ? "var(--color-brand)" : "var(--color-border)",
-                        backgroundColor: "rgba(255,255,255,0.8)",
-                        backdropFilter: "blur(8px)",
-                        boxShadow: isOpen ? "0 4px 20px rgba(79,70,229,0.08)" : "none",
-                      }}>
-                      <div className="flex">
-                        <div
-                          className="w-1 shrink-0 transition-colors duration-200"
-                          style={{ backgroundColor: isOpen ? "var(--color-brand)" : "transparent" }}
-                        />
-                        <div className="flex-1">
-                          <button
-                            onClick={() => setOpenFaq(isOpen ? null : i)}
-                            className="flex w-full items-center gap-3 px-4 py-4 text-left"
-                          >
-                            <span className="flex-1 text-sm font-semibold" style={{ color: isOpen ? "var(--color-brand)" : "var(--color-text-primary)" }}>
-                              {item.q}
-                            </span>
-                            <span
-                              className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full transition-all duration-200"
-                              style={{
-                                backgroundColor: isOpen ? "var(--color-brand)" : "var(--color-bg-overlay)",
-                                color: isOpen ? "#fff" : "var(--color-text-muted)",
-                              }}
-                            >
-                              <svg width="10" height="10" viewBox="0 0 12 12" fill="none"
-                                className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
-                                aria-hidden="true">
-                                <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.75"
-                                  strokeLinecap="round" strokeLinejoin="round"/>
-                              </svg>
-                            </span>
-                          </button>
-                          <div
-                            className="grid transition-all duration-300 ease-in-out"
-                            style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
-                          >
-                            <div className="overflow-hidden">
-                              <div className="px-4 pb-4 pt-1">
-                                <p className="text-xs leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
-                                  {item.a}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Bottom help text */}
-              <p className="mt-6 text-sm" style={{ color: "var(--color-text-muted)" }}>
-                Still have questions?{" "}
-                <a href="mailto:hello@simplimed.ai" className="font-semibold"
-                  style={{ color: "var(--color-brand)" }}>
-                  Contact our team →
-                </a>
-              </p>
-            </div>
-
-            {/* ── RIGHT: CTA Card ── */}
-            <div className="flex items-center justify-center">
-              {/* Outer glow wrapper */}
-              <div className="rounded-3xl p-[2px]"
-                style={{
-                  background: "conic-gradient(from var(--gradient-angle, 0deg), #4F46E5, #6366F1, #3B82F6, #8B5CF6, #A78BFA, #4F46E5)",
-                  animation: "gradient-rotate 4s linear infinite",
-                }}>
-
-                {/* Inner card */}
-                <div className="relative overflow-hidden rounded-[calc(1.5rem-2px)] px-6 py-12 text-center sm:px-8 sm:py-14"
-                  style={{ backgroundColor: "rgba(255,255,255,0.8)", backdropFilter: "blur(12px)" }}>
-
-                  {/* Animated mesh blobs inside card */}
-                  <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-                    <div className="animate-blob-1 absolute -left-16 -top-16 h-[250px] w-[250px] rounded-full opacity-[0.07]"
-                      style={{ background: "radial-gradient(circle, #6366F1 0%, transparent 70%)" }} />
-                    <div className="animate-blob-2 absolute -bottom-16 -right-16 h-[200px] w-[200px] rounded-full opacity-[0.06]"
-                      style={{ background: "radial-gradient(circle, #3B82F6 0%, transparent 70%)" }} />
-                  </div>
-
-                  <div className="relative z-10">
-                    <h2 className="mb-4 text-2xl font-bold leading-tight tracking-tight sm:text-3xl"
-                      style={{ color: "var(--color-text-primary)" }}>
-                      Ready to understand your{" "}
-                      <span className="bg-gradient-to-r from-indigo-600 via-blue-600 to-purple-600 bg-clip-text text-transparent">
-                        health?
-                      </span>
-                    </h2>
-
-                    <p className="mx-auto mb-8 max-w-sm text-sm leading-relaxed"
-                      style={{ color: "var(--color-text-secondary)" }}>
-                      Upload your first report in seconds. No credit card required.
-                      Join 50,000+ people who already understand their medical data.
-                    </p>
-
-                    {/* CTAs */}
-                    <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-                      <button onClick={handleCTA}
-                        className="relative inline-flex items-center gap-2 overflow-hidden rounded-xl px-7 py-3.5 text-sm font-bold text-white shadow-lg transition-transform duration-200 hover:scale-105"
-                        style={{ background: "linear-gradient(135deg, #4F46E5 0%, #6366F1 100%)", boxShadow: "0 8px 24px rgba(79,70,229,0.3)" }}>
-                        <span className="animate-shimmer pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                        Start for Free
-                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75"
-                            strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                      </button>
-                      <Link href="/pricing"
-                        className="inline-flex items-center gap-2 rounded-xl border px-6 py-3 text-sm font-semibold transition-colors duration-200 hover:bg-indigo-50"
-                        style={{ borderColor: "var(--color-brand)", color: "var(--color-brand)" }}>
-                        View Pricing
-                      </Link>
-                    </div>
-
-                    {/* Trust badges */}
-                    <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-                      {[
-                        { icon: "🔒", text: "HIPAA Compliant" },
-                        { icon: "⚡", text: "Results in 2s" },
-                        { icon: "💳", text: "No card needed" },
-                      ].map(({ icon, text }) => (
-                        <div key={text} className="flex items-center gap-1.5 rounded-full border px-3 py-1"
-                          style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-bg-subtle)" }}>
-                          <span className="text-xs">{icon}</span>
-                          <span className="text-[10px] font-medium" style={{ color: "var(--color-text-secondary)" }}>{text}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+          {/* Buttons */}
+          <div className="flex shrink-0 flex-wrap items-center gap-3">
+            <button onClick={handleCTA}
+              className="relative inline-flex items-center gap-2 overflow-hidden rounded-xl px-6 py-3 text-sm font-bold text-white shadow-lg transition-transform duration-200 hover:scale-105"
+              style={{ background: "linear-gradient(135deg, #4F46E5 0%, #6366F1 100%)", boxShadow: "0 4px 14px rgba(79,70,229,0.3)" }}>
+              <span className="animate-shimmer pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+              Start for Free
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+            <Link href="/pricing"
+              className="inline-flex items-center gap-2 rounded-xl border px-5 py-2.5 text-sm font-semibold transition-colors duration-200 hover:bg-indigo-50"
+              style={{ borderColor: "var(--color-brand)", color: "var(--color-brand)" }}>
+              View Pricing
+            </Link>
           </div>
         </div>
       </section>

@@ -178,7 +178,7 @@ export default function PricingPage() {
         style={{ backgroundColor: "#FAFBFF" }}>
         {/* Diagonal ribbon */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-          <div className="absolute left-[-5%] right-[-5%] top-1/2 h-[240px] -translate-y-1/2 -rotate-[3deg]"
+          <div className="hidden md:block absolute left-[-5%] right-[-5%] top-1/2 h-[240px] -translate-y-1/2 -rotate-[3deg]"
             style={{
               background: "linear-gradient(135deg, #4F46E5 0%, #6366F1 50%, #818CF8 100%)",
               borderRadius: "2rem",
@@ -301,7 +301,7 @@ export default function PricingPage() {
       <section className="relative overflow-hidden px-6 py-14 sm:px-10 lg:px-16" style={{ backgroundColor: "#FAFBFF" }}>
         {/* Flipped ribbon */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-          <div className="absolute left-[-5%] right-[-5%] top-[55%] h-[140px] -translate-y-1/2 rotate-[3deg]"
+          <div className="hidden md:block absolute left-[-5%] right-[-5%] top-[55%] h-[140px] -translate-y-1/2 rotate-[3deg]"
             style={{
               background: "linear-gradient(135deg, #818CF8 0%, #6366F1 50%, #4F46E5 100%)",
               borderRadius: "1.5rem",

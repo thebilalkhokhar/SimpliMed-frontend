@@ -61,11 +61,11 @@ export default function ChatPage() {
   // Detect mobile for conditional panel width
   const isMobile = useMediaQuery("(max-width: 767px)");
 
-  // Resizable right panel
-  const [panelWidth, setPanelWidth]   = useState(380);
+  // Resizable right panel (percentage-based)
+  const [panelWidth, setPanelWidth]   = useState(40);
   const isResizing                     = useRef(false);
-  const PANEL_MIN = 320;
-  const PANEL_MAX = 650;
+  const PANEL_MIN = 25;
+  const PANEL_MAX = 60;
 
   const handleMouseDown = useCallback(() => {
     isResizing.current = true;
@@ -76,8 +76,8 @@ export default function ChatPage() {
   useEffect(() => {
     function handleMouseMove(e: MouseEvent) {
       if (!isResizing.current) return;
-      const newWidth = window.innerWidth - e.clientX;
-      setPanelWidth(Math.min(PANEL_MAX, Math.max(PANEL_MIN, newWidth)));
+      const newWidthPct = ((window.innerWidth - e.clientX) / window.innerWidth) * 100;
+      setPanelWidth(Math.min(PANEL_MAX, Math.max(PANEL_MIN, newWidthPct)));
     }
     function handleMouseUp() {
       if (isResizing.current) {
@@ -453,8 +453,8 @@ export default function ChatPage() {
               ].join(" ")}
               style={{
                 borderColor: showCenterStage && showRightPanel ? "var(--color-border)" : "transparent",
-                width: !isMobile && showCenterStage && showRightPanel ? panelWidth : undefined,
-                minWidth: !isMobile && showCenterStage && showRightPanel ? "320px" : undefined,
+                width: !isMobile && showCenterStage && showRightPanel ? `${panelWidth}%` : undefined,
+                minWidth: !isMobile && showCenterStage && showRightPanel ? "300px" : undefined,
                 backgroundColor: showCenterStage ? "var(--color-bg-base)" : "var(--color-bg-subtle)",
               }}
             >

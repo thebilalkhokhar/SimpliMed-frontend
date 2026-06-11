@@ -410,7 +410,7 @@ export default function ChatSidebar({
       {/* ── Manage Plans ── */}
       {(!collapsed || isMobileDrawer) ? (
         <div className="px-3 py-2">
-          <button onClick={() => { setShowPlans(true); if (isMobileDrawer) onMobileClose(); }}
+          <button onClick={() => { window.location.href = "/plans"; if (isMobileDrawer) onMobileClose(); }}
             className="flex w-full items-center gap-2.5 rounded-xl border px-3 py-2 text-sm font-medium transition-all duration-150"
             style={{ borderColor: "var(--color-border)", color: "var(--color-text-secondary)" }}
             onMouseEnter={(e) => {
@@ -431,7 +431,7 @@ export default function ChatSidebar({
         </div>
       ) : (
         <div className="flex justify-center py-2">
-          <button onClick={() => setShowPlans(true)} title="Manage Plans"
+          <button onClick={() => { window.location.href = "/plans"; }} title="Manage Plans"
             className="flex h-9 w-9 items-center justify-center rounded-xl transition-colors duration-150"
             style={{ color: "var(--color-text-muted)" }}
             onMouseEnter={(e) => {
@@ -451,9 +451,13 @@ export default function ChatSidebar({
 
       {/* ── User strip with popup menu ── */}
       <div className="relative p-3" style={{ borderTop: "1px solid var(--color-border)" }}>
+        {/* Outside click overlay to close menu */}
+        {showUserMenu && (
+          <div className="fixed inset-0 z-40" onClick={() => setShowUserMenu(false)} aria-hidden="true" />
+        )}
         {/* Popup menu — slides up with animation */}
         <div
-          className={`absolute bottom-full left-3 right-3 mb-2 overflow-hidden rounded-2xl border transition-all duration-200 ${
+          className={`absolute bottom-full left-3 right-3 z-50 mb-2 overflow-hidden rounded-2xl border transition-all duration-200 ${
             showUserMenu ? "pointer-events-auto translate-y-0 opacity-100" : "pointer-events-none translate-y-2 opacity-0"
           }`}
           style={{

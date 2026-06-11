@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -126,38 +128,67 @@ export default function PlansModal({ onClose }: PlansModalProps) {
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-[0.02]"
           style={{ backgroundImage: "radial-gradient(circle, #0F172A 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
 
-        {/* Header */}
-        <div className="relative z-10 flex shrink-0 items-center justify-between px-6 py-5 sm:px-10">
-          <div>
-            <h2 className="text-2xl font-bold" style={{ color: "var(--color-text-primary)" }}>
-              Manage Plans
-            </h2>
-            <p className="mt-1 text-sm" style={{ color: "var(--color-text-secondary)" }}>
-              Choose the plan that fits your needs. Cancel anytime.
-            </p>
-          </div>
+        {/* ── Header bar (same as landing page) ── */}
+        <header className="sticky top-0 z-20 shrink-0 border-b"
+          style={{ backgroundColor: "rgba(255,255,255,0.85)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", borderColor: "var(--color-border)" }}>
+          <div className="mx-auto flex h-[72px] w-full max-w-[1920px] items-center justify-between px-6 sm:px-10 lg:px-16">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-3 no-underline">
+              <Image src="/logo.svg" alt="Simplimed logo" width={38} height={38} className="rounded-xl" style={{ objectFit: "contain" }} />
+              <span className="text-lg font-bold tracking-tight" style={{ color: "var(--color-text-primary)" }}>
+                Simplimed
+              </span>
+            </Link>
 
-          {/* Close button */}
-          <button onClick={onClose}
-            className="flex h-10 w-10 items-center justify-center rounded-xl border transition-colors duration-150"
-            style={{ borderColor: "var(--color-border)", color: "var(--color-text-secondary)" }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.backgroundColor = "var(--color-bg-overlay)";
-              (e.currentTarget as HTMLElement).style.color = "var(--color-text-primary)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.backgroundColor = "";
-              (e.currentTarget as HTMLElement).style.color = "var(--color-text-secondary)";
-            }}
-            aria-label="Close (Esc)">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-              <path d="M4 4l10 10M14 4L4 14" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
-            </svg>
-          </button>
-        </div>
+            {/* Nav links */}
+            <nav className="hidden items-center gap-1 md:flex">
+              {[
+                { label: "Features", href: "/#features" },
+                { label: "How It Works", href: "/#how-it-works" },
+                { label: "Pricing", href: "/pricing" },
+              ].map(({ label, href }) => (
+                <Link key={label} href={href}
+                  className="rounded-xl px-4 py-2 text-sm font-medium transition-all duration-150"
+                  style={{ color: label === "Pricing" ? "var(--color-brand)" : "var(--color-text-secondary)", backgroundColor: label === "Pricing" ? "var(--color-brand-light)" : "transparent" }}
+                  onMouseEnter={(e) => {
+                    if (label !== "Pricing") {
+                      (e.currentTarget as HTMLElement).style.backgroundColor = "var(--color-bg-overlay)";
+                      (e.currentTarget as HTMLElement).style.color = "var(--color-text-primary)";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (label !== "Pricing") {
+                      (e.currentTarget as HTMLElement).style.backgroundColor = "transparent";
+                      (e.currentTarget as HTMLElement).style.color = "var(--color-text-secondary)";
+                    }
+                  }}>
+                  {label}
+                </Link>
+              ))}
+            </nav>
+
+            {/* Close button */}
+            <button onClick={onClose}
+              className="flex h-10 w-10 items-center justify-center rounded-xl border transition-colors duration-150"
+              style={{ borderColor: "var(--color-border)", color: "var(--color-text-secondary)" }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.backgroundColor = "var(--color-bg-overlay)";
+                (e.currentTarget as HTMLElement).style.color = "var(--color-text-primary)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.backgroundColor = "";
+                (e.currentTarget as HTMLElement).style.color = "var(--color-text-secondary)";
+              }}
+              aria-label="Close (Esc)">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M4 4l10 10M14 4L4 14" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+              </svg>
+            </button>
+          </div>
+        </header>
 
         {/* Toggle */}
-        <div className="relative z-10 flex justify-center pb-8">
+        <div className="relative z-10 flex justify-center p-8">
           <div className="inline-flex items-center gap-3 rounded-2xl border p-1.5"
             style={{ backgroundColor: "rgba(255,255,255,0.8)", borderColor: "var(--color-border)", backdropFilter: "blur(8px)" }}>
             <button onClick={() => setAnnual(false)}
@@ -255,12 +286,103 @@ export default function PlansModal({ onClose }: PlansModalProps) {
             ))}
           </div>
 
-          {/* Esc hint */}
-          <p className="mt-6 text-center text-xs" style={{ color: "var(--color-text-muted)" }}>
-            Press <kbd className="rounded border px-1.5 py-0.5 text-[10px] font-medium"
-              style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-bg-overlay)" }}>Esc</kbd> to close
-          </p>
+          {/* Footer */}
         </div>
+
+        {/* ── Full Footer (same as landing page) ── */}
+        <footer className="relative z-10 w-full border-t"
+          style={{ backgroundColor: "var(--color-bg-base)", borderColor: "var(--color-border)" }}>
+          <div className="mx-auto w-full max-w-[1400px] px-6 py-10 sm:px-10">
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-6">
+
+              {/* Brand column */}
+              <div className="lg:col-span-2">
+                <div className="mb-3 inline-flex items-center gap-2.5">
+                  <Image src="/logo.svg" alt="Simplimed" width={32} height={32} className="rounded-lg" />
+                  <span className="text-sm font-bold tracking-tight" style={{ color: "var(--color-text-primary)" }}>
+                    Simplimed
+                  </span>
+                </div>
+                <p className="mb-4 max-w-xs text-xs leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
+                  AI-powered medical report analysis and personal health intelligence — clean, private, and built for you.
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {["HIPAA Compliant", "SOC 2 Type II", "GDPR Ready"].map((badge) => (
+                    <span key={badge} className="rounded-full border px-2 py-0.5 text-[9px] font-semibold"
+                      style={{ backgroundColor: "var(--color-normal-bg)", borderColor: "var(--color-normal-border)", color: "var(--color-normal-text)" }}>
+                      {badge}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Link columns */}
+              {Object.entries({
+                Product: [
+                  { label: "Features", href: "/#features" },
+                  { label: "How It Works", href: "/#how-it-works" },
+                  { label: "Pricing", href: "/pricing" },
+                  { label: "Changelog", href: "#" },
+                ],
+                Platform: [
+                  { label: "Dashboard", href: "/dashboard" },
+                  { label: "Reports", href: "/dashboard/reports" },
+                  { label: "Analysis", href: "/dashboard/analysis" },
+                  { label: "Chat", href: "/chat" },
+                ],
+                Company: [
+                  { label: "About", href: "#" },
+                  { label: "Blog", href: "#" },
+                  { label: "Careers", href: "#" },
+                  { label: "Contact", href: "mailto:hello@simplimed.ai" },
+                ],
+                Legal: [
+                  { label: "Privacy Policy", href: "#" },
+                  { label: "Terms of Service", href: "#" },
+                  { label: "HIPAA Notice", href: "#" },
+                  { label: "Cookie Policy", href: "#" },
+                ],
+              }).map(([group, links]) => (
+                <div key={group}>
+                  <p className="mb-2.5 text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--color-text-primary)" }}>
+                    {group}
+                  </p>
+                  <ul className="flex flex-col gap-1.5">
+                    {links.map(({ label, href }) => (
+                      <li key={label}>
+                        <Link href={href} className="text-xs transition-colors duration-150"
+                          style={{ color: "var(--color-text-muted)" }}
+                          onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--color-text-primary)")}
+                          onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--color-text-muted)")}>
+                          {label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Bottom bar */}
+          <div className="border-t" style={{ borderColor: "var(--color-border)" }}>
+            <div className="mx-auto flex w-full max-w-[1400px] flex-wrap items-center justify-between gap-3 px-6 py-3 sm:px-10">
+              <p className="text-[10px]" style={{ color: "var(--color-text-muted)" }}>
+                © {new Date().getFullYear()} Simplimed, Inc. All rights reserved.
+              </p>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+                {["Privacy Policy", "Terms of Service", "Cookie Policy"].map((item) => (
+                  <Link key={item} href="#" className="text-[10px] transition-colors duration-150"
+                    style={{ color: "var(--color-text-muted)" }}
+                    onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--color-text-secondary)")}
+                    onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--color-text-muted)")}>
+                    {item}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </footer>
       </div>
     </>
   );

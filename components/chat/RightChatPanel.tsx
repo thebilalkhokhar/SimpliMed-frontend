@@ -354,7 +354,7 @@ export default function RightChatPanel({ messages, onSend, isLoading = false, fi
                 }
               }}
             >
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+              <svg width="18" height="18" viewBox="-1 -1 20 20" fill="none" aria-hidden="true">
                 <path d="M15.5 8.5L8 16a5 5 0 0 1-7-7l7.5-7.5a3 3 0 0 1 4.25 4.24L5.25 13.3a1 1 0 0 1-1.42-1.42l6.5-6.5"
                   stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>

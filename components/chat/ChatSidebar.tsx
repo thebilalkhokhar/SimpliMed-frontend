@@ -28,6 +28,7 @@ interface ChatSidebarProps {
   onToggleCollapse: () => void;
   mobileOpen: boolean;
   onMobileClose: () => void;
+  onNewChat?: () => void;
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -110,6 +111,7 @@ export default function ChatSidebar({
   onToggleCollapse,
   mobileOpen,
   onMobileClose,
+  onNewChat,
 }: ChatSidebarProps) {
   const pathname = usePathname();
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -219,7 +221,7 @@ export default function ChatSidebar({
       {(!collapsed || isMobileDrawer) ? (
         <div className="flex flex-col gap-2 px-3 pt-4 pb-2">
           {/* New Chat */}
-          <Link href="/chat" onClick={isMobileDrawer ? onMobileClose : undefined}
+          <button onClick={() => { onNewChat?.(); if (isMobileDrawer) onMobileClose(); }}
             className="flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition-colors duration-150"
             style={{ backgroundColor: "var(--color-brand)", color: "var(--color-text-inverse)" }}
             onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--color-brand-hover)")}
@@ -228,7 +230,7 @@ export default function ChatSidebar({
               <path d="M7 2v10M2 7h10" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
             </svg>
             New Analysis
-          </Link>
+          </button>
 
           {/* Search */}
           <button
@@ -257,7 +259,7 @@ export default function ChatSidebar({
         </div>
       ) : (
         <div className="flex flex-col items-center gap-2 px-1 pt-4 pb-2">
-          <Link href="/chat" title="New Chat"
+          <button onClick={() => onNewChat?.()} title="New Chat"
             className="flex h-9 w-9 items-center justify-center rounded-xl transition-colors duration-150"
             style={{ backgroundColor: "var(--color-brand)", color: "var(--color-text-inverse)" }}
             onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--color-brand-hover)")}
@@ -265,7 +267,7 @@ export default function ChatSidebar({
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
               <path d="M7 2v10M2 7h10" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
             </svg>
-          </Link>
+          </button>
           <button title="Search" onClick={() => { setShowSearch(true); onMobileClose(); }}
             className="flex h-9 w-9 items-center justify-center rounded-xl transition-colors duration-150"
             style={{ color: "var(--color-text-muted)", border: "1px solid var(--color-border)" }}

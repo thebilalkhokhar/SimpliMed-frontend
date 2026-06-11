@@ -36,23 +36,54 @@ Simplimed_frontend/
 ├── app/
 │   ├── globals.css              # Medical Light Theme — CSS tokens + component classes
 │   ├── layout.tsx               # Root layout — fonts, metadata, viewport
-│   ├── (public)/                # Unauthenticated pages (landing, login, signup)
+│   ├── (public)/                # Public marketing pages
 │   │   ├── layout.tsx
-│   │   └── page.tsx
-│   └── (dashboard)/             # Authenticated pages
+│   │   ├── page.tsx             # Landing page (hero, how it works, capabilities, testimonials, FAQ + CTA)
+│   │   └── pricing/
+│   │       └── page.tsx         # Pricing page (plans, FAQ + CTA side-by-side)
+│   ├── (auth)/                  # Authentication pages
+│   │   ├── layout.tsx
+│   │   ├── signin/
+│   │   │   └── page.tsx         # Sign in — animated gradient background + glowing card
+│   │   ├── signup/
+│   │   │   └── page.tsx         # Sign up — same visual style as sign in
+│   │   ├── forgot-password/
+│   │   │   └── page.tsx
+│   │   └── plans/
+│   │       └── page.tsx
+│   ├── (workspace)/             # Chat / AI workspace
+│   │   ├── layout.tsx
+│   │   └── chat/
+│   │       └── page.tsx         # Main chat page — input, report analysis, AI chat panel
+│   └── (dashboard)/             # Authenticated dashboard pages
 │       ├── layout.tsx           # Shell: Sidebar + Navbar + scrollable content
 │       └── dashboard/
-│           └── page.tsx
+│           ├── page.tsx
+│           ├── analysis/
+│           ├── profile/
+│           ├── reports/
+│           └── settings/
 │
 ├── components/
-│   ├── ui/                      # Primitive components
-│   │   ├── Button.tsx           # primary | secondary | ghost variants
-│   │   ├── Card.tsx             # Elevated surface card
-│   │   ├── Input.tsx            # Accessible labeled input
-│   │   └── Badge.tsx            # Medical status badge
-│   └── shared/                  # Layout infrastructure
-│       ├── Navbar.tsx           # Top navigation bar
-│       └── Sidebar.tsx          # Fixed left nav with active state
+│   ├── chat/                    # Chat workspace components
+│   │   ├── CenterStage.tsx      # Report analysis display (findings, charts, actions, gauges)
+│   │   ├── ChatInputZone.tsx    # File upload + text input area
+│   │   ├── ChatSidebar.tsx      # Left sidebar — history, search, user menu
+│   │   ├── RightChatPanel.tsx   # AI chat panel with message bubbles
+│   │   ├── PlansModal.tsx       # Plans management modal
+│   │   └── SettingsModal.tsx    # Settings modal
+│   ├── shared/                  # Layout infrastructure
+│   │   ├── Navbar.tsx           # Top navigation bar
+│   │   ├── Sidebar.tsx          # Dashboard sidebar
+│   │   ├── PublicHeader.tsx     # Public pages header
+│   │   └── PublicFooter.tsx     # Public pages footer
+│   └── ui/                      # Primitive components
+│       ├── AuthCard.tsx
+│       ├── AuthSplitLayout.tsx
+│       ├── Badge.tsx            # Medical status badge
+│       ├── Button.tsx           # primary | secondary | ghost variants
+│       ├── Card.tsx             # Elevated surface card
+│       └── Input.tsx            # Accessible labeled input
 │
 ├── hooks/
 │   ├── useLocalStorage.ts
@@ -61,6 +92,7 @@ Simplimed_frontend/
 ├── types/
 │   └── index.ts                 # UserProfile, Report, Metric, Analysis, Insight
 │
+├── public/                      # Static assets (SVG illustrations)
 ├── tailwind.config.ts
 ├── next.config.ts
 ├── postcss.config.js
@@ -68,6 +100,48 @@ Simplimed_frontend/
 ├── .gitignore
 └── package.json
 ```
+
+---
+
+## Key Features
+
+### Landing Page (`/`)
+- Animated gradient mesh hero with floating glass cards
+- 3-step "How it works" section with diagonal ribbon backgrounds
+- Auto-scrolling capabilities marquee
+- Testimonials carousel with horizontal slide animation
+- FAQ + CTA side-by-side layout with glowing gradient border card
+
+### Authentication (`/signin`, `/signup`)
+- Animated blob background with diagonal ribbon
+- Rotating conic-gradient glowing border card
+- Full form validation with inline error messages
+- Google OAuth button (mock)
+- Email verification modal (signup)
+
+### Pricing (`/pricing`)
+- Annual/monthly toggle with 33% savings badge
+- 4-tier plan cards with highlighted "Most Popular"
+- FAQ + CTA merged side-by-side section
+- Trust badges strip
+
+### Chat Workspace (`/chat`)
+- Collapsible left sidebar with chat history, search, and user menu
+- Welcome state with suggestion chips and file upload
+- Report analysis center stage (CenterStage) with:
+  - Health report header with "Chat with AI" + "Download Report" buttons
+  - Alert banner (prediabetes detection)
+  - Key findings grid with color-coded status cards
+  - Blood sugar trend SVG chart
+  - HbA1c half-circle gauge
+  - Recommended actions checklist with progress ring
+  - Questions to ask your doctor
+  - AI confidence breakdown
+  - Lifestyle tips
+- Resizable right chat panel (desktop drag handle)
+- Right panel hidden by default — opens via "Chat with AI" button
+- Mobile responsive: bottom tab bar switches between Analysis and Chat views
+- Report doesn't refresh on follow-up messages (separate loading states)
 
 ---
 
@@ -101,6 +175,16 @@ All tokens are CSS custom properties in `app/globals.css`, mirrored into Tailwin
 .badge-abnormal  /* rose status badge */
 .badge-info      /* blue status badge */
 .section-label   /* uppercase tracking label */
+```
+
+### Animations
+
+```css
+@keyframes gradient-rotate    /* Rotating conic gradient border (auth cards, CTA cards) */
+@keyframes blob-1/2/3         /* Floating background blobs */
+@keyframes shimmer            /* Button shimmer effect */
+@keyframes marquee            /* Auto-scrolling capabilities carousel */
+@keyframes float/float-slow   /* Floating glass cards in hero */
 ```
 
 ---

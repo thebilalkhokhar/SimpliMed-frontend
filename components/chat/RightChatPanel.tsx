@@ -103,7 +103,7 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
 
         {/* Bubble — text content only */}
         <div
-          className={`max-w-[85%] rounded-2xl px-4 py-3 text-base leading-relaxed ${isUser ? "rounded-tr-sm" : "rounded-tl-sm"}`}
+          className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${isUser ? "rounded-tr-sm" : "rounded-tl-sm"}`}
           style={
             isUser
               ? {
@@ -237,18 +237,18 @@ export default function RightChatPanel({ messages, onSend, isLoading = false, fi
     >
       {/* ── Panel header ── */}
       <div
-        className="flex h-16 shrink-0 items-center px-6"
+        className="flex h-14 shrink-0 items-center px-5"
         style={{ borderBottom: "1px solid var(--color-border)" }}
       >
-        <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl"
+        <div className="flex items-center gap-2.5">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg"
             style={{ backgroundColor: "var(--color-brand-light)" }}>
-            <span className="text-base">🤖</span>
+            <span className="text-sm">🤖</span>
           </div>
-          <span className="text-lg font-bold" style={{ color: "var(--color-text-primary)" }}>
+          <span className="text-sm font-bold" style={{ color: "var(--color-text-primary)" }}>
             Chat
           </span>
-          <span className="rounded-full px-2.5 py-0.5 text-xs font-semibold"
+          <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold"
             style={{ backgroundColor: "var(--color-brand-light)", color: "var(--color-brand)" }}>
             AI
           </span>

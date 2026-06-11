@@ -9,6 +9,7 @@ interface CenterStageProps {
   query: string;
   fileNames?: string[];
   isLoading: boolean;
+  onOpenChat?: () => void;
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -46,38 +47,61 @@ function LoadingState() {
 /* ─────────────────────────────────────────────────────────────────────────────
    ① HEADER ROW
 ───────────────────────────────────────────────────────────────────────────── */
-function HeaderRow() {
+function HeaderRow({ onOpenChat }: { onOpenChat?: () => void }) {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
-      <div className="flex items-center gap-4">
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
+    <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
+      <div className="flex items-center gap-3">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
           style={{ backgroundColor: "var(--color-brand-light)" }}>
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 22 22" fill="none" aria-hidden="true">
             <rect x="3" y="3" width="16" height="16" rx="3" stroke="var(--color-brand)" strokeWidth="1.75" />
             <path d="M7 11h8M11 7v8" stroke="var(--color-brand)" strokeWidth="1.75" strokeLinecap="round" />
           </svg>
         </div>
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wider text-slate-400">
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
             Health Report
           </p>
-          <h1 className="text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
+          <h1 className="text-sm font-bold tracking-tight text-slate-900 sm:text-base">
             Hi, John — here is your health report summary
           </h1>
         </div>
       </div>
-      <button
-        className="inline-flex shrink-0 items-center gap-2.5 rounded-xl px-5 py-3 text-sm font-semibold text-white shadow-sm transition-colors duration-150"
-        style={{ backgroundColor: "var(--color-brand)" }}
-        onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--color-brand-hover)")}
-        onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--color-brand)")}
-      >
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path d="M8 3v8M5 8l3 3 3-3" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M3 13h10" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
-        </svg>
-        Download Report
-      </button>
+      <div className="flex items-center gap-2">
+        {onOpenChat && (
+          <button
+            onClick={onOpenChat}
+            className="inline-flex shrink-0 items-center gap-2 rounded-xl border-2 px-4 py-2.5 text-xs font-semibold transition-colors duration-150"
+            style={{ borderColor: "var(--color-brand)", color: "var(--color-brand)" }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.backgroundColor = "var(--color-brand)";
+              (e.currentTarget as HTMLElement).style.color = "#fff";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.backgroundColor = "";
+              (e.currentTarget as HTMLElement).style.color = "var(--color-brand)";
+            }}
+          >
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M2 3h12a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H5l-3 2.5V4a1 1 0 0 1 1-1Z"
+                stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+            </svg>
+            Chat with AI
+          </button>
+        )}
+        <button
+          className="inline-flex shrink-0 items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition-colors duration-150"
+          style={{ backgroundColor: "var(--color-brand)" }}
+          onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--color-brand-hover)")}
+          onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--color-brand)")}
+        >
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M8 3v8M5 8l3 3 3-3" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M3 13h10" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+          </svg>
+          Download Report
+        </button>
+      </div>
     </div>
   );
 }
@@ -87,11 +111,11 @@ function HeaderRow() {
 ───────────────────────────────────────────────────────────────────────────── */
 function AlertBanner() {
   return (
-    <div className="rounded-2xl border-2 border-amber-200 bg-amber-50 p-6">
-      <div className="flex flex-wrap items-start gap-5">
+    <div className="rounded-2xl border-2 border-amber-200 bg-amber-50 p-5">
+      <div className="flex flex-wrap items-start gap-4">
         {/* Icon */}
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-100">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-100">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M12 2L2 20h20L12 2Z" stroke="#D97706" strokeWidth="1.8" strokeLinejoin="round" />
             <path d="M12 9v5" stroke="#D97706" strokeWidth="1.8" strokeLinecap="round" />
             <circle cx="12" cy="17" r="1" fill="#D97706" />
@@ -100,8 +124,8 @@ function AlertBanner() {
 
         {/* Copy */}
         <div className="flex-1 min-w-0">
-          <p className="text-base font-bold text-amber-800">⚠️ Prediabetes Detected</p>
-          <p className="mt-1 text-sm leading-relaxed text-amber-700">
+          <p className="text-sm font-bold text-amber-800">⚠️ Prediabetes Detected</p>
+          <p className="mt-1 text-xs leading-relaxed text-amber-700">
             Your HbA1c of <strong>6.1%</strong> and fasting glucose of <strong>110 mg/dL</strong> fall
             within the prediabetes range. Early lifestyle adjustments can reverse this condition
             and prevent progression to Type 2 Diabetes.
@@ -109,12 +133,12 @@ function AlertBanner() {
         </div>
 
         {/* Risk progress meter */}
-        <div className="w-full sm:w-56 shrink-0">
-          <div className="flex justify-between mb-1.5">
-            <span className="text-xs font-semibold text-amber-700">Risk Level</span>
-            <span className="text-xs font-bold text-amber-800">Moderate — 64%</span>
+        <div className="w-full sm:w-48 shrink-0">
+          <div className="flex justify-between mb-1">
+            <span className="text-[10px] font-semibold text-amber-700">Risk Level</span>
+            <span className="text-[10px] font-bold text-amber-800">Moderate — 64%</span>
           </div>
-          <div className="h-3 w-full overflow-hidden rounded-full bg-amber-100">
+          <div className="h-2.5 w-full overflow-hidden rounded-full bg-amber-100">
             <div
               className="h-full rounded-full transition-all duration-700"
               style={{
@@ -123,7 +147,7 @@ function AlertBanner() {
               }}
             />
           </div>
-          <div className="mt-1.5 flex justify-between text-[10px] font-medium text-amber-600">
+          <div className="mt-1 flex justify-between text-[9px] font-medium text-amber-600">
             <span>Low</span>
             <span>Moderate</span>
             <span>High</span>
@@ -185,29 +209,29 @@ function statusStyle(s: CardStatus) {
 function FindingsGrid() {
   return (
     <div>
-      <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-slate-400">
+      <p className="mb-2.5 text-[10px] font-semibold uppercase tracking-widest text-slate-400">
         Key Findings
       </p>
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 xl:grid-cols-4">
         {FINDINGS.map((f) => {
           const st = statusStyle(f.status);
           return (
-            <div key={f.label} className={`flex flex-col gap-2 rounded-xl border p-4 ${st.card}`}>
+            <div key={f.label} className={`flex flex-col gap-1.5 rounded-xl border p-3 ${st.card}`}>
               <div className="flex items-center justify-between">
-                <p className="text-xs font-medium text-slate-500">{f.label}</p>
-                <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${st.badge}`}>
+                <p className="text-[10px] font-medium text-slate-500">{f.label}</p>
+                <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-semibold ${st.badge}`}>
                   {st.label}
                 </span>
               </div>
-              <p className={`text-2xl font-bold tracking-tight ${st.value}`}>
+              <p className={`text-xl font-bold tracking-tight ${st.value}`}>
                 {f.value}
-                <span className="ml-1 text-xs font-normal text-slate-400">{f.unit}</span>
+                <span className="ml-1 text-[10px] font-normal text-slate-400">{f.unit}</span>
               </p>
               <div className="flex items-center justify-between">
-                <p className="text-[10px] text-slate-400">Ref: {f.ref}</p>
+                <p className="text-[9px] text-slate-400">Ref: {f.ref}</p>
                 {f.trend !== 0 && (
                   <span
-                    className={`text-[10px] font-semibold ${f.trend > 0 ? "text-rose-500" : "text-emerald-600"}`}
+                    className={`text-[9px] font-semibold ${f.trend > 0 ? "text-rose-500" : "text-emerald-600"}`}
                   >
                     {f.trend > 0 ? "▲" : "▼"} {Math.abs(f.trend)}%
                   </span>
@@ -275,14 +299,14 @@ function BloodSugarChart() {
   ];
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
       {/* Header */}
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-3 flex items-center justify-between">
         <div>
-          <p className="text-sm font-bold text-slate-900">Blood Sugar Trend</p>
-          <p className="text-xs text-slate-400">Fasting glucose — last 12 months (mg/dL)</p>
+          <p className="text-xs font-bold text-slate-900">Blood Sugar Trend</p>
+          <p className="text-[10px] text-slate-400">Fasting glucose — last 12 months (mg/dL)</p>
         </div>
-        <span className="rounded-full bg-amber-100 px-2.5 py-1 text-[10px] font-semibold text-amber-700">
+        <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[9px] font-semibold text-amber-700">
           ▲ Rising
         </span>
       </div>
@@ -442,9 +466,9 @@ const GAUGE_NEEDLE_TIP    = gaugeArcPoint(GAUGE_NEEDLE_DEG);
 
 function HbA1cGauge() {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <p className="mb-1 text-sm font-bold text-slate-900">HbA1c Gauge</p>
-      <p className="mb-3 text-xs text-slate-400">Glycated haemoglobin — diagnostic range</p>
+    <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+      <p className="mb-1 text-xs font-bold text-slate-900">HbA1c Gauge</p>
+      <p className="mb-2.5 text-[10px] text-slate-400">Glycated haemoglobin — diagnostic range</p>
 
       <div className="flex flex-col items-center">
         <svg viewBox="40 30 120 80" width="100%" style={{ maxWidth: 240 }} aria-label="HbA1c gauge">
@@ -516,18 +540,18 @@ function RecommendedActions() {
   const doneCount = checked.size;
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
       {/* Header */}
-      <div className="mb-5 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <div className="mb-4 flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-100">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
               <path d="M4 10l5 5 8-9" stroke="#059669" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
           <div>
-            <p className="text-base font-bold text-slate-900">Recommended Actions</p>
-            <p className="text-xs text-slate-400">{doneCount} of {ACTIONS.length} completed</p>
+            <p className="text-sm font-bold text-slate-900">Recommended Actions</p>
+            <p className="text-[10px] text-slate-400">{doneCount} of {ACTIONS.length} completed</p>
           </div>
         </div>
         {/* Progress ring */}
@@ -607,19 +631,19 @@ const DOCTOR_QUESTIONS = [
 
 function DoctorQuestions() {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
       {/* Header */}
-      <div className="mb-5 flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-100">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <div className="mb-4 flex items-center gap-2.5">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-100">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <circle cx="10" cy="10" r="8" stroke="#4F46E5" strokeWidth="1.75" />
             <path d="M8 8c0-1.1.9-2 2-2s2 .9 2 2c0 1.3-2 2-2 3" stroke="#4F46E5" strokeWidth="1.75" strokeLinecap="round" />
             <circle cx="10" cy="14.5" r="1" fill="#4F46E5" />
           </svg>
         </div>
         <div>
-          <p className="text-base font-bold text-slate-900">Questions to Ask Your Doctor</p>
-          <p className="text-xs text-slate-400">Print or screenshot before your next appointment</p>
+          <p className="text-sm font-bold text-slate-900">Questions to Ask Your Doctor</p>
+          <p className="text-[10px] text-slate-400">Print or screenshot before your next appointment</p>
         </div>
       </div>
 
@@ -675,16 +699,16 @@ function RangeBar() {
   const pct = ((userV - minV) / (maxV - minV)) * 100;
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-      <div className="mb-5 flex items-center gap-3">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="mb-4 flex items-center gap-2.5">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M3 13h14M5 9h10M7 5h6" stroke="#475569" strokeWidth="2" strokeLinecap="round" />
           </svg>
         </div>
         <div>
-          <p className="text-base font-bold text-slate-900">Understand the Numbers</p>
-          <p className="text-sm text-slate-500">HbA1c diagnostic thresholds — where your value sits</p>
+          <p className="text-sm font-bold text-slate-900">Understand the Numbers</p>
+          <p className="text-xs text-slate-500">HbA1c diagnostic thresholds — where your value sits</p>
         </div>
       </div>
 
@@ -742,18 +766,18 @@ function AIConfidenceRing({ pct = 91 }: { pct?: number }) {
   const dashOffset = circ * (1 - pct / 100);
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-      <div className="mb-5 flex items-center gap-3">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
+    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="mb-4 flex items-center gap-2.5">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
           style={{ backgroundColor: "var(--color-brand-light)" }}>
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 18 18" fill="none" aria-hidden="true">
             <circle cx="9" cy="9" r="7" stroke="var(--color-brand)" strokeWidth="1.5" />
             <path d="M9 5v4l3 2" stroke="var(--color-brand)" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
         </div>
         <div>
-          <p className="text-base font-bold text-slate-900">AI Interpretation Confidence</p>
-          <p className="text-sm text-slate-500">How reliable this analysis is</p>
+          <p className="text-sm font-bold text-slate-900">AI Interpretation Confidence</p>
+          <p className="text-xs text-slate-500">How reliable this analysis is</p>
         </div>
       </div>
 
@@ -832,14 +856,14 @@ function LifestyleTipCard() {
   }
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-      <div className="mb-5 flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-xl">
+    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="mb-4 flex items-center gap-2.5">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-100 text-base">
           🌱
         </div>
         <div>
-          <p className="text-base font-bold text-slate-900">Lifestyle Tips for You</p>
-          <p className="text-sm text-slate-500">Personalised recommendations based on your results</p>
+          <p className="text-sm font-bold text-slate-900">Lifestyle Tips for You</p>
+          <p className="text-xs text-slate-500">Personalised recommendations based on your results</p>
         </div>
       </div>
 
@@ -894,15 +918,15 @@ function LifestyleTipCard() {
 /* ─────────────────────────────────────────────────────────────────────────────
    ROOT — CenterStage
 ───────────────────────────────────────────────────────────────────────────── */
-export default function CenterStage({ query, fileNames = [], isLoading }: CenterStageProps) {
+export default function CenterStage({ query, fileNames = [], isLoading, onOpenChat }: CenterStageProps) {
   if (isLoading) return <LoadingState />;
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="flex flex-col gap-6 p-6">
+      <div className="flex flex-col gap-5 p-5">
 
         {/* ① Header */}
-        <HeaderRow />
+        <HeaderRow onOpenChat={onOpenChat} />
 
         {/* ② Alert banner */}
         <AlertBanner />

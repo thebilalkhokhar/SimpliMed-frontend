@@ -116,7 +116,7 @@ export default function PricingPage() {
       {/* ══════════════════════════════════════════════════════════════════════
           HERO
       ══════════════════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden px-6 py-20 text-center sm:px-10 lg:px-16 lg:py-28"
+      <section className="relative overflow-hidden px-6 py-14 text-center sm:px-10 lg:px-16 lg:py-20"
         style={{ backgroundColor: "#FAFBFF" }}>
         {/* Animated blobs */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
@@ -174,11 +174,11 @@ export default function PricingPage() {
       {/* ══════════════════════════════════════════════════════════════════════
           PRICING CARDS
       ══════════════════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden px-6 pb-24 pt-12 sm:px-10 lg:px-16"
+      <section className="relative overflow-hidden px-6 pb-14 pt-8 sm:px-10 lg:px-16"
         style={{ backgroundColor: "#FAFBFF" }}>
         {/* Diagonal ribbon */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-          <div className="absolute left-[-5%] right-[-5%] top-[40%] h-[240px] -rotate-[3deg]"
+          <div className="absolute left-[-5%] right-[-5%] top-1/2 h-[240px] -translate-y-1/2 -rotate-[3deg]"
             style={{
               background: "linear-gradient(135deg, #4F46E5 0%, #6366F1 50%, #818CF8 100%)",
               borderRadius: "2rem",
@@ -296,60 +296,87 @@ export default function PricingPage() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════════
-          FAQ with flipped ribbon background
+          FAQ + CTA — side by side
       ══════════════════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden px-6 py-20 sm:px-10 lg:px-16" style={{ backgroundColor: "#FAFBFF" }}>
+      <section className="relative overflow-hidden px-6 py-14 sm:px-10 lg:px-16" style={{ backgroundColor: "#FAFBFF" }}>
         {/* Flipped ribbon */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-          <div className="absolute left-[-5%] right-[-5%] top-[45%] h-[200px] rotate-[4deg]"
+          <div className="absolute left-[-5%] right-[-5%] top-[55%] h-[140px] -translate-y-1/2 rotate-[3deg]"
             style={{
               background: "linear-gradient(135deg, #818CF8 0%, #6366F1 50%, #4F46E5 100%)",
-              borderRadius: "2rem",
+              borderRadius: "1.5rem",
               opacity: 0.85,
             }} />
           <div className="absolute inset-0 opacity-[0.04]"
             style={{ backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)", backgroundSize: "20px 20px" }} />
         </div>
 
-        <div className="relative z-10 mx-auto max-w-2xl">
-          <h2 className="mb-10 text-center text-2xl font-bold sm:text-3xl" style={{ color: "var(--color-text-primary)" }}>
-            Pricing FAQs
-          </h2>
-          <div className="flex flex-col gap-3">
-            {[
-              { q: "Can I switch plans later?",           a: "Yes — upgrade or downgrade any time. Changes take effect at the next billing cycle." },
-              { q: "What happens after the free trial?",  a: "You keep access to 5 reports/month on the Free plan forever. No automatic charges." },
-              { q: "Do you offer student or NGO discounts?", a: "Yes. Contact sales@simplimed.ai with proof of eligibility for 40% off any paid plan." },
-              { q: "Is there a refund policy?",           a: "We offer a full refund within 14 days of your first paid charge, no questions asked." },
-            ].map((item, i) => (
-              <FaqItem key={i} q={item.q} a={item.a} />
-            ))}
-          </div>
-        </div>
-      </section>
+        <div className="relative z-10 mx-auto max-w-[1920px]">
+          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
 
-      {/* ══════════════════════════════════════════════════════════════════════
-          BOTTOM CTA
-      ══════════════════════════════════════════════════════════════════════ */}
-      <section className="px-6 py-20 sm:px-10 lg:px-16" style={{ backgroundColor: "var(--color-bg-base)" }}>
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="mb-4 text-3xl font-bold" style={{ color: "var(--color-text-primary)" }}>
-            Start understanding your health today
-          </h2>
-          <p className="mb-8 text-base" style={{ color: "var(--color-text-secondary)" }}>
-            Join 50,000+ people who already use Simplimed.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <button onClick={() => router.push(isAuthenticated ? "/dashboard" : "/signin")}
-              className="relative inline-flex items-center gap-2 overflow-hidden rounded-2xl px-8 py-4 text-base font-bold text-white shadow-lg transition-transform duration-200 hover:scale-105"
-              style={{ background: "linear-gradient(135deg, #4F46E5 0%, #6366F1 100%)", boxShadow: "0 8px 24px rgba(79,70,229,0.3)" }}>
-              <span className="animate-shimmer pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-              Get Started Free
-            </button>
-            <a href="mailto:sales@simplimed.ai" className="rounded-2xl border px-7 py-3.5 text-base font-semibold transition-colors duration-200 hover:bg-indigo-50"
-              style={{ borderColor: "var(--color-brand)", color: "var(--color-brand)" }}>
-              Talk to Sales
-            </a>
+            {/* ── LEFT: FAQ ── */}
+            <div>
+              <h2 className="mb-6 text-2xl font-bold sm:text-3xl" style={{ color: "var(--color-text-primary)" }}>
+                Pricing FAQs
+              </h2>
+              <div className="flex flex-col gap-2.5">
+                {[
+                  { q: "Can I switch plans later?",           a: "Yes — upgrade or downgrade any time. Changes take effect at the next billing cycle." },
+                  { q: "What happens after the free trial?",  a: "You keep access to 5 reports/month on the Free plan forever. No automatic charges." },
+                  { q: "Do you offer student or NGO discounts?", a: "Yes. Contact sales@simplimed.ai with proof of eligibility for 40% off any paid plan." },
+                  { q: "Is there a refund policy?",           a: "We offer a full refund within 14 days of your first paid charge, no questions asked." },
+                ].map((item, i) => (
+                  <FaqItem key={i} q={item.q} a={item.a} />
+                ))}
+              </div>
+            </div>
+
+            {/* ── RIGHT: CTA Card ── */}
+            <div className="flex items-center justify-center">
+              <div className="w-full max-w-lg rounded-3xl p-[2px]"
+                style={{
+                  background: "conic-gradient(from var(--gradient-angle, 0deg), #4F46E5, #6366F1, #3B82F6, #8B5CF6, #A78BFA, #4F46E5)",
+                  animation: "gradient-rotate 4s linear infinite",
+                }}>
+                <div className="relative overflow-hidden rounded-[calc(1.5rem-2px)] px-6 py-8 text-center sm:px-8 sm:py-10"
+                  style={{ backgroundColor: "rgba(255,255,255,0.8)", backdropFilter: "blur(12px)" }}>
+                  {/* Blobs */}
+                  <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+                    <div className="animate-blob-1 absolute -left-16 -top-16 h-[250px] w-[250px] rounded-full opacity-[0.07]"
+                      style={{ background: "radial-gradient(circle, #6366F1 0%, transparent 70%)" }} />
+                    <div className="animate-blob-2 absolute -bottom-16 -right-16 h-[200px] w-[200px] rounded-full opacity-[0.06]"
+                      style={{ background: "radial-gradient(circle, #3B82F6 0%, transparent 70%)" }} />
+                  </div>
+
+                  <div className="relative z-10">
+                    <h2 className="mb-4 text-2xl font-bold leading-tight tracking-tight sm:text-3xl"
+                      style={{ color: "var(--color-text-primary)" }}>
+                      Start understanding your{" "}
+                      <span className="bg-gradient-to-r from-indigo-600 via-blue-600 to-purple-600 bg-clip-text text-transparent">
+                        health today
+                      </span>
+                    </h2>
+                    <p className="mx-auto mb-8 max-w-sm text-sm leading-relaxed"
+                      style={{ color: "var(--color-text-secondary)" }}>
+                      Join 50,000+ people who already use Simplimed. No credit card required.
+                    </p>
+                    <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+                      <button onClick={() => router.push(isAuthenticated ? "/dashboard" : "/signin")}
+                        className="relative inline-flex items-center gap-2 overflow-hidden rounded-xl px-7 py-3.5 text-sm font-bold text-white shadow-lg transition-transform duration-200 hover:scale-105"
+                        style={{ background: "linear-gradient(135deg, #4F46E5 0%, #6366F1 100%)", boxShadow: "0 8px 24px rgba(79,70,229,0.3)" }}>
+                        <span className="animate-shimmer pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                        Get Started Free
+                      </button>
+                      <a href="mailto:sales@simplimed.ai" className="inline-flex items-center gap-2 rounded-xl border px-6 py-3 text-sm font-semibold transition-colors duration-200 hover:bg-indigo-50"
+                        style={{ borderColor: "var(--color-brand)", color: "var(--color-brand)" }}>
+                        Talk to Sales
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
@@ -376,8 +403,8 @@ function FaqItem({ q, a }: { q: string; a: string }) {
           style={{ backgroundColor: open ? "var(--color-brand)" : "transparent" }} />
         <div className="flex-1">
           <button onClick={() => setOpen(!open)}
-            className="flex w-full items-center justify-between px-5 py-5 text-left">
-            <span className="pr-4 text-base font-semibold"
+            className="flex w-full items-center gap-3 px-4 py-3 text-left">
+            <span className="flex-1 text-sm font-semibold"
               style={{ color: open ? "var(--color-brand)" : "var(--color-text-primary)" }}>
               {q}
             </span>

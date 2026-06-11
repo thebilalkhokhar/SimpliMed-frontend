@@ -143,7 +143,7 @@ export default function ChatSidebar({
     <aside
       className={[
         "group flex h-full flex-col transition-all duration-300",
-        isMobileDrawer ? "w-80" : collapsed ? "w-[68px]" : "w-80",
+        isMobileDrawer ? "w-64" : collapsed ? "w-[68px]" : "w-64",
       ].join(" ")}
       style={{
         backgroundColor: "var(--color-bg-base)",
@@ -178,7 +178,7 @@ export default function ChatSidebar({
           <>
             <div className="flex items-center gap-2.5">
               <Image src="/logo.svg" alt="Simplimed" width={32} height={32} className="rounded-lg" />
-              <span className="text-base font-bold tracking-tight"
+              <span className="text-sm font-bold tracking-tight"
                 style={{ color: "var(--color-text-primary)" }}>
                 Simplimed
               </span>
@@ -220,7 +220,7 @@ export default function ChatSidebar({
         <div className="flex flex-col gap-2 px-3 pt-4 pb-2">
           {/* New Chat */}
           <Link href="/chat" onClick={isMobileDrawer ? onMobileClose : undefined}
-            className="flex items-center justify-center gap-2 rounded-xl py-3 text-base font-semibold transition-colors duration-150"
+            className="flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition-colors duration-150"
             style={{ backgroundColor: "var(--color-brand)", color: "var(--color-text-inverse)" }}
             onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--color-brand-hover)")}
             onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--color-brand)")}>
@@ -233,7 +233,7 @@ export default function ChatSidebar({
           {/* Search */}
           <button
             onClick={() => { setShowSearch(true); onMobileClose(); }}
-            className="flex items-center gap-2 rounded-xl border py-2.5 px-3 text-base font-medium transition-colors duration-150"
+            className="flex items-center gap-2 rounded-xl border py-2 px-3 text-sm font-medium transition-colors duration-150"
             style={{ borderColor: "var(--color-border)", color: "var(--color-text-secondary)" }}
             onMouseEnter={(e) => {
               (e.currentTarget as HTMLElement).style.backgroundColor = "var(--color-bg-overlay)";
@@ -349,7 +349,7 @@ export default function ChatSidebar({
                   />
                 ) : (
                   <button
-                    className="flex-1 truncate text-left text-base font-medium"
+                    className="flex-1 truncate text-left text-sm font-medium"
                     style={{ color: isActive ? "var(--color-brand)" : "var(--color-text-primary)" }}
                     onClick={() => setActiveId(item.id)}
                   >
@@ -411,7 +411,7 @@ export default function ChatSidebar({
       {(!collapsed || isMobileDrawer) ? (
         <div className="px-3 py-2">
           <button onClick={() => { setShowPlans(true); if (isMobileDrawer) onMobileClose(); }}
-            className="flex w-full items-center gap-2.5 rounded-xl border px-3 py-2.5 text-base font-medium transition-all duration-150"
+            className="flex w-full items-center gap-2.5 rounded-xl border px-3 py-2 text-sm font-medium transition-all duration-150"
             style={{ borderColor: "var(--color-border)", color: "var(--color-text-secondary)" }}
             onMouseEnter={(e) => {
               (e.currentTarget as HTMLElement).style.backgroundColor = "var(--color-brand-light)";

@@ -4,6 +4,7 @@ import CenterStage from "@/components/chat/CenterStage";
 import ChatInputZone, { type AttachedFile } from "@/components/chat/ChatInputZone";
 import ChatSidebar from "@/components/chat/ChatSidebar";
 import RightChatPanel, { type ChatMessage } from "@/components/chat/RightChatPanel";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -47,16 +48,21 @@ export default function ChatPage() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [messages, setMessages]         = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading]       = useState(false);
+  const [isAnalysisLoading, setIsAnalysisLoading] = useState(false);
   const [activeQuery, setActiveQuery]   = useState("");
   const [activeFiles, setActiveFiles]   = useState<string[]>([]);
   const [showCenterStage, setShowCenterStage] = useState(false);
+  const [showRightPanel, setShowRightPanel] = useState(false);
   const [fileAlreadyUploaded, setFileAlreadyUploaded] = useState(false);
 
   // Mobile: track which panel is visible in analysis state
   const [mobilePanelTab, setMobilePanelTab] = useState<"analysis" | "chat">("analysis");
 
+  // Detect mobile for conditional panel width
+  const isMobile = useMediaQuery("(max-width: 767px)");
+
   // Resizable right panel
-  const [panelWidth, setPanelWidth]   = useState(480);
+  const [panelWidth, setPanelWidth]   = useState(380);
   const isResizing                     = useRef(false);
   const PANEL_MIN = 320;
   const PANEL_MAX = 650;
@@ -108,7 +114,9 @@ export default function ChatPage() {
     // Only show CenterStage if files were attached
     if (files.length > 0) {
       setShowCenterStage(true);
+      setShowRightPanel(false);
       setFileAlreadyUploaded(true);
+      setIsAnalysisLoading(true);
     }
 
     // Trigger layout transition immediately
@@ -124,6 +132,7 @@ export default function ChatPage() {
       };
       setMessages((prev) => [...prev, aiMsg]);
       setIsLoading(false);
+      setIsAnalysisLoading(false);
     }, 1800);
   }
 
@@ -289,22 +298,22 @@ export default function ChatPage() {
             ].join(" ")}
           >
             {/* Hero */}
-            <div className="mb-8 text-center">
+            <div className="mb-6 text-center">
               <div
-                className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl"
+                className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-xl"
                 style={{ backgroundColor: "var(--color-brand)", boxShadow: "var(--shadow-card-md)" }}
               >
-                <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 26 26" fill="none" aria-hidden="true">
                   <path d="M13 4v18M4 13h18" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" />
                 </svg>
               </div>
               <h1
-                className="text-2xl font-bold tracking-tight sm:text-3xl"
+                className="text-xl font-bold tracking-tight sm:text-2xl"
                 style={{ color: "var(--color-text-primary)" }}
               >
                 What would you like to understand?
               </h1>
-              <p className="mt-2 max-w-md text-sm leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
+              <p className="mt-1.5 max-w-md text-xs leading-relaxed sm:text-sm" style={{ color: "var(--color-text-secondary)" }}>
                 Upload a medical report, enter a health question, or do both.
                 Simplimed will decode it into clear, plain-language insights.
               </p>
@@ -422,7 +431,8 @@ export default function ChatPage() {
               <CenterStage
                 query={activeQuery}
                 fileNames={activeFiles}
-                isLoading={isLoading}
+                isLoading={isAnalysisLoading}
+                onOpenChat={showRightPanel ? undefined : () => { setShowRightPanel(true); setMobilePanelTab("chat"); }}
               />
             </div>
 
@@ -430,18 +440,21 @@ export default function ChatPage() {
             <div
               className={[
                 "relative overflow-hidden transition-all duration-500 ease-in-out",
-                showCenterStage ? "md:shrink-0 md:border-l" : "flex-1",
-                // Desktop: always in normal flow (never absolute)
-                "md:relative md:inset-auto md:z-auto md:w-auto md:pb-0",
-                // Mobile: full width on chat tab OR when no centerstage
+                // Desktop: hidden when centerstage is up and panel not opened yet
+                showCenterStage && !showRightPanel
+                  ? "max-md:block md:hidden"
+                  : showCenterStage && showRightPanel
+                    ? "md:shrink-0 md:border-l md:relative md:inset-auto md:z-auto md:pb-0"
+                    : "flex-1 md:relative md:inset-auto md:z-auto md:pb-0",
+                // Mobile: always allow tab-based visibility (ignore showRightPanel)
                 mobilePanelTab === "chat" || !showCenterStage
                   ? "max-md:absolute max-md:inset-0 max-md:z-20 max-md:w-full max-md:pb-12"
                   : "max-md:hidden",
               ].join(" ")}
               style={{
-                borderColor: showCenterStage ? "var(--color-border)" : "transparent",
-                width: showCenterStage ? panelWidth : undefined,
-                minWidth: showCenterStage ? "320px" : undefined,
+                borderColor: showCenterStage && showRightPanel ? "var(--color-border)" : "transparent",
+                width: !isMobile && showCenterStage && showRightPanel ? panelWidth : undefined,
+                minWidth: !isMobile && showCenterStage && showRightPanel ? "320px" : undefined,
                 backgroundColor: showCenterStage ? "var(--color-bg-base)" : "var(--color-bg-subtle)",
               }}
             >

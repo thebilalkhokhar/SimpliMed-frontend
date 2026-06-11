@@ -182,6 +182,16 @@ export default function ChatPage() {
         onToggleCollapse={() => setSidebarCollapsed((c) => !c)}
         mobileOpen={mobileNavOpen}
         onMobileClose={() => setMobileNavOpen(false)}
+        onNewChat={() => {
+          setViewState("input");
+          setMessages([]);
+          setActiveQuery("");
+          setActiveFiles([]);
+          setShowCenterStage(false);
+          setShowRightPanel(false);
+          setFileAlreadyUploaded(false);
+          setSelectedSuggestion("");
+        }}
       />
 
       {/* ── MAIN CANVAS ───────────────────────────────────────────────────── */}
@@ -241,33 +251,8 @@ export default function ChatPage() {
             )}
           </div>
 
-          {/* Right: new analysis + user avatar */}
+          {/* Right: user avatar */}
           <div className="flex items-center gap-1.5">
-            {viewState === "analysis" && (
-              <button
-                onClick={() => {
-                  setViewState("input");
-                  setMessages([]);
-                  setActiveQuery("");
-                  setActiveFiles([]);
-                  setShowCenterStage(false);
-                  setFileAlreadyUploaded(false);
-                }}
-                className="hidden items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-medium transition-colors duration-150 md:inline-flex"
-                style={{
-                  borderColor: "var(--color-border)",
-                  color: "var(--color-text-secondary)",
-                  backgroundColor: "var(--color-bg-base)",
-                }}
-                onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.backgroundColor = "var(--color-bg-subtle)"}
-                onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.backgroundColor = "var(--color-bg-base)"}
-              >
-                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
-                </svg>
-                New Analysis
-              </button>
-            )}
             <button
               className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold"
               style={{
